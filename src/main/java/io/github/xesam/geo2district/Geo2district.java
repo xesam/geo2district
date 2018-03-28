@@ -5,14 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class Geo2district {
-    public static void main(String[] args) {
-        DistrictLoader districtLoader = new FileDistrictLoader("D:/district/selected");
-        Geo2district geo2district = new Geo2district(districtLoader);
-        GeoPoint geoPoint = new GeoPoint(116.415017, 39.917192);
-        Optional<District> district = geo2district.toDistrict(geoPoint);
-        System.out.println(district.isPresent());
-        System.out.println(district.get());
-    }
 
     private List<District> districts;
 
