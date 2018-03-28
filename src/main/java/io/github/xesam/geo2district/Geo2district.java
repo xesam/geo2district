@@ -1,5 +1,7 @@
-package io.github.xesam.geo2region;
+package io.github.xesam.geo2district;
 
 public class Geo2district {
+    public static void main(String[] args) {
 
+    }
 }

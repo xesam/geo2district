@@ -1,4 +1,4 @@
-package io.github.xesam.geo2region;
+package io.github.xesam.geo2district;
 
 public class GeoPoint {
     private final double lng;
