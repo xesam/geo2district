@@ -18,9 +18,6 @@ public class District {
     private String name;
     private List<List<GeoPoint>> boundaries = new LinkedList<>();
 
-    public District() {
-    }
-
     public District(String id) {
         this.id = id;
     }
@@ -29,15 +26,11 @@ public class District {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
