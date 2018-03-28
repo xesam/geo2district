@@ -1,0 +1,70 @@
+package io.github.xesam.geo2district;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+public class FileDistrictLoader implements DistrictLoader {
+
+    private String districtDirPath;
+    private String SKELETON = "skeleton";
+
+    public FileDistrictLoader(String districtDirPath) {
+        this.districtDirPath = districtDirPath;
+    }
+
+    @Override
+    public List<District> load() {
+        List<District> districts = new LinkedList<>();
+        Path skeleton = Paths.get(districtDirPath, SKELETON + ".json");
+        try (BufferedReader bfw = Files.newBufferedReader(skeleton)) {
+            JSONObject job = JSON.parseObject(bfw.readLine());
+            JSONArray dis = job.getJSONArray("districts");
+            JSONObject level0 = dis.getJSONObject(0);
+            JSONArray level1 = level0.getJSONArray("districts");
+            level1.forEach(jsonObject -> {
+                JSONObject item = (JSONObject) jsonObject;
+                String adCode = item.getString("adcode");
+                districts.add(loadDistrict(adCode));
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return districts;
+    }
+
+    private District loadDistrict(String adCode) {
+        District district = new District(adCode);
+        Path skeleton = Paths.get(districtDirPath, adCode + ".json");
+        try (BufferedReader bfw = Files.newBufferedReader(skeleton)) {
+            JSONObject job = JSON.parseObject(bfw.readLine());
+            JSONArray dis = job.getJSONArray("districts");
+            dis.forEach(jsonObject -> {
+                JSONObject item = (JSONObject) jsonObject;
+                String name = item.getString("name");
+                district.setName(name);
+                String polylines = item.getString("polyline");
+                Arrays.asList(polylines.split("\\|")).forEach(polyline -> {
+                    List<GeoPoint> polygon = new LinkedList<>();
+                    Arrays.asList(polyline.split(";")).forEach(point -> {
+                        String[] vals = point.split(",");
+                        polygon.add(new GeoPoint(Double.parseDouble(vals[0]), Double.parseDouble(vals[1])));
+                    });
+                    district.addBoundary(polygon);
+                });
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return district;
+    }
+}

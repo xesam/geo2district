@@ -9,6 +9,10 @@ public class GeoPoint {
         this.lat = lat;
     }
 
+    public GeoPoint(double[] vals) {
+        this(vals[0], vals[1]);
+    }
+
     public double getLng() {
         return lng;
     }
