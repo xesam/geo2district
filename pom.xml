@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.xesam</groupId>
-    <artifactId>geo2region</artifactId>
+    <artifactId>geo2district</artifactId>
     <version>1.0-SNAPSHOT</version>
 
 
