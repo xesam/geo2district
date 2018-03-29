@@ -37,7 +37,7 @@ public class Geo2district {
     }
 
     private boolean isSamePoint(GeoPoint pointA, GeoPoint pointB) {
-        return pointA.getLng() == pointB.getLat() && pointA.getLat() == pointB.getLat();
+        return pointA.getLng() == pointB.getLng() && pointA.getLat() == pointB.getLat();
     }
 
     private boolean isInBoundary(GeoPoint target, List<GeoPoint> boundary) {
