@@ -4,15 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 行政区
+ * 区域
  */
 public class District {
-    public static final class Type {
-        public static final int NORMAL_PROVINCE = 1;//省
-        public static final int AUTONOMOUS = 2; //自治区
-        public static final int MUNICIPALITY = 3; //直辖市
-        public static final int SPECIAL = 4; //特别行政区
-    }
 
     private String id;
     private String name;
