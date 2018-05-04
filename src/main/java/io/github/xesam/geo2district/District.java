@@ -10,6 +10,8 @@ public class District {
 
     private String id;
     private String name;
+    private Boundary boundary;
+    @Deprecated
     private List<List<GeoPoint>> boundaries = new LinkedList<>();
     private List<District> subDistricts = new LinkedList<>();
 
@@ -27,6 +29,22 @@ public class District {
 
     void setName(String name) {
         this.name = name;
+    }
+
+    public Boundary getBoundary() {
+        return boundary;
+    }
+
+    public void setBoundary(Boundary boundary) {
+        this.boundary = boundary;
+    }
+
+    public List<District> getSubDistricts() {
+        return subDistricts;
+    }
+
+    public void setSubDistricts(List<District> subDistricts) {
+        this.subDistricts = subDistricts;
     }
 
     public List<List<GeoPoint>> getBoundaries() {
