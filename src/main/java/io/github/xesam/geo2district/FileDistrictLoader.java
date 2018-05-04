@@ -15,17 +15,18 @@ import java.util.List;
 
 public class FileDistrictLoader implements DistrictLoader {
 
+    private String startFilePath;
     private String districtDirPath;
-    private String SKELETON = "skeleton";
 
-    public FileDistrictLoader(String districtDirPath) {
+    public FileDistrictLoader(String startFilePath, String districtDirPath) {
+        this.startFilePath = startFilePath;
         this.districtDirPath = districtDirPath;
     }
 
     @Override
     public List<District> load() {
         List<District> districts = new LinkedList<>();
-        Path skeleton = Paths.get(districtDirPath, SKELETON + ".json");
+        Path skeleton = Paths.get(startFilePath);
         try (BufferedReader bfw = Files.newBufferedReader(skeleton)) {
             JSONObject job = JSON.parseObject(bfw.readLine());
             JSONArray dis = job.getJSONArray("districts");
@@ -52,15 +53,17 @@ public class FileDistrictLoader implements DistrictLoader {
                 JSONObject item = (JSONObject) jsonObject;
                 String name = item.getString("name");
                 district.setName(name);
+                Boundary boundary = new Boundary();
                 String polylines = item.getString("polyline");
                 Arrays.asList(polylines.split("\\|")).forEach(polyline -> {
                     List<GeoPoint> polygon = new LinkedList<>();
                     Arrays.asList(polyline.split(";")).forEach(point -> {
                         String[] vals = point.split(",");
                         polygon.add(new GeoPoint(Double.parseDouble(vals[0]), Double.parseDouble(vals[1])));
+                        boundary.add(polygon);
                     });
-                    district.addBoundary(polygon);
                 });
+                district.setBoundary(boundary);
             });
         } catch (IOException e) {
             e.printStackTrace();

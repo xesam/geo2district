@@ -29,8 +29,9 @@ public class Geo2district {
     }
 
     private boolean isInDistrict(GeoPoint geoPoint, District district) {
-        for (List<GeoPoint> boundary : district.getBoundaries()) {
-            if (geoRelation.getRelation(geoPoint, boundary) == Relation.IN) {
+        Boundary boundary = district.getBoundary();
+        for (List<GeoPoint> polygon : boundary.value()) {
+            if (geoRelation.getRelation(geoPoint, polygon) == Relation.IN) {
                 return true;
             }
         }

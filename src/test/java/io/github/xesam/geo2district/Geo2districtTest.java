@@ -11,7 +11,7 @@ public class Geo2districtTest {
 
     @BeforeClass
     public static void beforeClass() {
-        DistrictLoader districtLoader = new FileDistrictLoader("D:/district/selected");
+        DistrictLoader districtLoader = new FileDistrictLoader("F:/data.center/district/geo/skeleton.list.json", "F:\\data.center\\district\\geo");
         geo2district = new Geo2district(districtLoader);
     }
 

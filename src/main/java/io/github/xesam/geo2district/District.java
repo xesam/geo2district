@@ -13,7 +13,7 @@ public class District {
     private Boundary boundary;
     @Deprecated
     private List<List<GeoPoint>> boundaries = new LinkedList<>();
-    private List<District> subDistricts = new LinkedList<>();
+    private List<District> districts = new LinkedList<>();
 
     public District(String id) {
         this.id = id;
@@ -39,20 +39,12 @@ public class District {
         this.boundary = boundary;
     }
 
-    public List<District> getSubDistricts() {
-        return subDistricts;
+    public List<District> getDistricts() {
+        return districts;
     }
 
-    public void setSubDistricts(List<District> subDistricts) {
-        this.subDistricts = subDistricts;
-    }
-
-    public List<List<GeoPoint>> getBoundaries() {
-        return boundaries;
-    }
-
-    public void addBoundary(List<GeoPoint> polygon) {
-        boundaries.add(polygon);
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
     }
 
     @Override
