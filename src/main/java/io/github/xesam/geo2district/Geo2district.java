@@ -1,15 +1,16 @@
 package io.github.xesam.geo2district;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 public class Geo2district {
 
     private List<District> districts;
+    private GeoRelation geoRelation;
 
     public Geo2district(DistrictLoader districtLoader) {
         districts = districtLoader.load();
+        geoRelation = new GeoRelation();
     }
 
     public Optional<District> toDistrict(GeoPoint geoPoint) {
@@ -29,43 +30,10 @@ public class Geo2district {
 
     private boolean isInDistrict(GeoPoint geoPoint, District district) {
         for (List<GeoPoint> boundary : district.getBoundaries()) {
-            if (isInBoundary(geoPoint, boundary)) {
+            if (geoRelation.getRelation(geoPoint, boundary) == Relation.IN) {
                 return true;
             }
         }
         return false;
-    }
-
-    private boolean isSamePoint(GeoPoint pointA, GeoPoint pointB) {
-        return pointA.getLng() == pointB.getLng() && pointA.getLat() == pointB.getLat();
-    }
-
-    private boolean isInBoundary(GeoPoint target, List<GeoPoint> boundary) {
-        int crossCount = 0;
-        if (boundary.size() < 3) {
-            return false;
-        }
-        Iterator<GeoPoint> iterator = boundary.iterator();
-        GeoPoint base = iterator.next();
-        while (iterator.hasNext()) {
-            GeoPoint next = iterator.next();
-            if (isSamePoint(target, base) || isSamePoint(target, next)) {
-                return false;
-            }
-            if ((base.getLat() < target.getLat() && next.getLat() >= target.getLat())
-                    || (base.getLat() >= target.getLat() && next.getLat() < target.getLat())) {
-                double crossLng = next.getLng() - (next.getLat() - base.getLat()) * (next.getLng() - base.getLng()) / (next.getLat() - base.getLat());
-
-                if (crossLng == target.getLng()) {
-                    return false;
-                }
-                if (crossLng < target.getLng()) {
-                    crossCount++;
-                }
-            }
-
-            base = next;
-        }
-        return crossCount % 2 != 0;
     }
 }

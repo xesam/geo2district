@@ -11,6 +11,7 @@ public class District {
     private String id;
     private String name;
     private List<List<GeoPoint>> boundaries = new LinkedList<>();
+    private List<District> subDistricts = new LinkedList<>();
 
     public District(String id) {
         this.id = id;
