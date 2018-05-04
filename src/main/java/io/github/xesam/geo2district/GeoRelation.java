@@ -8,10 +8,6 @@ import java.util.List;
  */
 public class GeoRelation {
 
-    public int IN = 0;
-    public int OUT = 1;
-    public int ON = 2;
-
     public Relation getRelation(GeoPoint target, List<GeoPoint> boundary) {
         int crossCount = 0;
         if (boundary.size() < 3) {
