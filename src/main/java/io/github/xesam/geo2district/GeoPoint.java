@@ -1,5 +1,8 @@
 package io.github.xesam.geo2district;
 
+/**
+ * @author xesamguo@gmail.com
+ */
 public class GeoPoint {
     private final double lng;
     private final double lat;
@@ -7,10 +10,6 @@ public class GeoPoint {
     public GeoPoint(double lng, double lat) {
         this.lng = lng;
         this.lat = lat;
-    }
-
-    public GeoPoint(double[] vals) {
-        this(vals[0], vals[1]);
     }
 
     public double getLng() {
