@@ -3,6 +3,9 @@ package io.github.xesam.geo2district;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author xesamguo@gmail.com
+ */
 public class Geo2district {
 
     private List<District> districts;
@@ -13,6 +16,15 @@ public class Geo2district {
         geoRelation = new GeoRelation();
     }
 
+    public DistrictQuerier getQuerier(String... source) {
+        return null;
+    }
+
+    public DistrictQuerier getChinaQuerier(String... source) {
+        return null;
+    }
+
+    @Deprecated
     public Optional<District> toDistrict(GeoPoint geoPoint) {
         District ret = null;
         for (District district : districts) {

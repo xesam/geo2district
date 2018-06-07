@@ -1,0 +1,23 @@
+{
+  "name": "China",
+  "adcode": "000001",
+  "districts": [
+    {
+      "name": "beijing",
+      "adcode": "000002",
+      "districts": [
+        {
+          "name": "朝阳区",
+          "adcode": "000003",
+          "districts": [
+            {
+              "name": "豆各庄乡",
+              "adcode": "000004",
+              "districts": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
