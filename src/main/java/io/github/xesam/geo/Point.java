@@ -1,13 +1,13 @@
-package io.github.xesam.geo2district;
+package io.github.xesam.geo;
 
 /**
  * @author xesamguo@gmail.com
  */
-public class GeoPoint {
+public class Point {
     private final double lng;
     private final double lat;
 
-    public GeoPoint(double lng, double lat) {
+    public Point(double lng, double lat) {
         this.lng = lng;
         this.lat = lat;
     }

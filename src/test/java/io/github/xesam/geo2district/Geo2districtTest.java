@@ -1,5 +1,6 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo.Point;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,32 +18,32 @@ public class Geo2districtTest {
 
     @Test
     public void toDistrictBeijing() {
-        GeoPoint geoPoint = new GeoPoint(116.415017, 39.917192);
-        Optional<District> district = geo2district.toDistrict(geoPoint);
+        Point point = new Point(116.415017, 39.917192);
+        Optional<District> district = geo2district.toDistrict(point);
         Assert.assertEquals(true, district.isPresent());
         Assert.assertEquals("北京市", district.get().getName());
     }
 
     @Test
     public void toDistrictWuhan() {
-        GeoPoint geoPoint = new GeoPoint(114.31, 30.52);
-        Optional<District> district = geo2district.toDistrict(geoPoint);
+        Point point = new Point(114.31, 30.52);
+        Optional<District> district = geo2district.toDistrict(point);
         Assert.assertEquals(true, district.isPresent());
         Assert.assertEquals("湖北省", district.get().getName());
     }
 
     @Test
     public void toDistrictHongkong() {
-        GeoPoint geoPoint = new GeoPoint(114.264415, 22.166757);
-        Optional<District> district = geo2district.toDistrict(geoPoint);
+        Point point = new Point(114.264415, 22.166757);
+        Optional<District> district = geo2district.toDistrict(point);
         Assert.assertEquals(true, district.isPresent());
         Assert.assertEquals("香港特别行政区", district.get().getName());
     }
 
     @Test
     public void toDistrictNothing() {
-        GeoPoint geoPoint = new GeoPoint(14.31, 30.52);
-        Optional<District> district = geo2district.toDistrict(geoPoint);
+        Point point = new Point(14.31, 30.52);
+        Optional<District> district = geo2district.toDistrict(point);
         Assert.assertEquals(false, district.isPresent());
     }
 }

@@ -1,5 +1,6 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo.Point;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,18 +21,18 @@ public class DistrictQuerierTest {
 
     @Test
     public void toDistrictBeijing() {
-        GeoPoint geoPoint = new GeoPoint(116.415017, 39.917192);
+        Point point = new Point(116.415017, 39.917192);
         DistrictQuerier querier = geo2district.getChinaQuerier();
-        Optional<District> district = querier.query(geoPoint);
+        Optional<District> district = querier.query(point);
         Assert.assertTrue(district.isPresent());
         Assert.assertEquals("北京市", district.get().getName());
     }
 
     @Test
     public void toDistrictNothing() {
-        GeoPoint geoPoint = new GeoPoint(14.31, 30.52);
+        Point point = new Point(14.31, 30.52);
         DistrictQuerier querier = geo2district.getChinaQuerier();
-        Optional<District> district = querier.query(geoPoint);
+        Optional<District> district = querier.query(point);
         Assert.assertFalse(district.isPresent());
     }
 }

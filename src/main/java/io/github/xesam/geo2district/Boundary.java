@@ -1,5 +1,7 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo.Point;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,13 +14,13 @@ public class Boundary {
 
     private List<SubBoundary> subs = new LinkedList<>();
 
-    private List<List<GeoPoint>> boundaries = new LinkedList<>();
+    private List<List<Point>> boundaries = new LinkedList<>();
 
-    public void add(List<GeoPoint> polygon) {
+    public void add(List<Point> polygon) {
         boundaries.add(polygon);
     }
 
-    public List<List<GeoPoint>> value() {
+    public List<List<Point>> value() {
         return boundaries;
     }
 }

@@ -1,5 +1,7 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo.Point;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class District {
     private String name;
     private Boundary boundary;
     @Deprecated
-    private List<List<GeoPoint>> boundaries = new LinkedList<>();
+    private List<List<Point>> boundaries = new LinkedList<>();
     private List<District> districts = new LinkedList<>();
 
     public District(String id) {

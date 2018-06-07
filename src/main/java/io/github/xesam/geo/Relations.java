@@ -1,22 +1,22 @@
-package io.github.xesam.geo2district;
+package io.github.xesam.geo;
 
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * created by xesamguo@gmail.com
+ * @author xesamguo@gmail.com
  */
-public class GeoRelation {
+public class Relations {
 
-    public Relation getRelation(GeoPoint target, List<GeoPoint> boundary) {
+    public Relation getRelation(Point target, List<Point> boundary) {
         int crossCount = 0;
         if (boundary.size() < 3) {
             return Relation.OUT;
         }
-        Iterator<GeoPoint> iterator = boundary.iterator();
-        GeoPoint base = iterator.next();
+        Iterator<Point> iterator = boundary.iterator();
+        Point base = iterator.next();
         while (iterator.hasNext()) {
-            GeoPoint next = iterator.next();
+            Point next = iterator.next();
             if (isSamePoint(target, base) || isSamePoint(target, next)) {
                 return Relation.OUT;
             }
@@ -37,7 +37,7 @@ public class GeoRelation {
         return (crossCount % 2 != 0) ? Relation.IN : Relation.OUT;
     }
 
-    private boolean isSamePoint(GeoPoint pointA, GeoPoint pointB) {
+    private boolean isSamePoint(Point pointA, Point pointB) {
         return pointA.getLng() == pointB.getLng() && pointA.getLat() == pointB.getLat();
     }
 }

@@ -1,5 +1,9 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo.Relations;
+import io.github.xesam.geo.Point;
+import io.github.xesam.geo.Relation;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,11 +13,11 @@ import java.util.Optional;
 public class Geo2district {
 
     private List<District> districts;
-    private GeoRelation geoRelation;
+    private Relations relations;
 
     public Geo2district(DistrictLoader districtLoader) {
         districts = districtLoader.load();
-        geoRelation = new GeoRelation();
+        relations = new Relations();
     }
 
     public DistrictQuerier getQuerier(String... source) {
@@ -25,10 +29,10 @@ public class Geo2district {
     }
 
     @Deprecated
-    public Optional<District> toDistrict(GeoPoint geoPoint) {
+    public Optional<District> toDistrict(Point point) {
         District ret = null;
         for (District district : districts) {
-            if (isInDistrict(geoPoint, district)) {
+            if (isInDistrict(point, district)) {
                 ret = district;
                 break;
             }
@@ -40,10 +44,10 @@ public class Geo2district {
         }
     }
 
-    private boolean isInDistrict(GeoPoint geoPoint, District district) {
+    private boolean isInDistrict(Point point, District district) {
         Boundary boundary = district.getBoundary();
-        for (List<GeoPoint> polygon : boundary.value()) {
-            if (geoRelation.getRelation(geoPoint, polygon) == Relation.IN) {
+        for (List<Point> polygon : boundary.value()) {
+            if (relations.getRelation(point, polygon) == Relation.IN) {
                 return true;
             }
         }

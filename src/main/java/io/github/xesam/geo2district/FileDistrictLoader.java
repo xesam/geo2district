@@ -3,6 +3,7 @@ package io.github.xesam.geo2district;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.xesam.geo.Point;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,10 +57,10 @@ public class FileDistrictLoader implements DistrictLoader {
                 Boundary boundary = new Boundary();
                 String polylines = item.getString("polyline");
                 Arrays.asList(polylines.split("\\|")).forEach(polyline -> {
-                    List<GeoPoint> polygon = new LinkedList<>();
+                    List<Point> polygon = new LinkedList<>();
                     Arrays.asList(polyline.split(";")).forEach(point -> {
                         String[] vals = point.split(",");
-                        polygon.add(new GeoPoint(Double.parseDouble(vals[0]), Double.parseDouble(vals[1])));
+                        polygon.add(new Point(Double.parseDouble(vals[0]), Double.parseDouble(vals[1])));
                         boundary.add(polygon);
                     });
                 });
