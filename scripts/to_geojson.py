@@ -17,16 +17,11 @@ def is_special(name):
 
 def skeleton_load(skeleton_path):
     with open(skeleton_path, encoding='utf-8') as in_file:
-        return json.load(in_file)
+        return json.load(in_file)['districts'][0]
 
 
 def skeleton_extract(raw_skeleton):
-    countries = raw_skeleton['districts']
-    unified_countries = []
-    for country in countries:
-        unified_country = process_country(country)
-        unified_countries.append(unified_country)
-    return unified_countries
+    return process_country(raw_skeleton)
 
 
 def process_country(country):
