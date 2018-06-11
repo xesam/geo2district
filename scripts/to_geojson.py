@@ -93,7 +93,48 @@ def process_district(district):
 
 
 def get_center(district):
-    return [float(x) for x in district['center'].split(',')]
+    return get_point(district['center'])
+
+
+def get_point(point_str):
+    return [float(x) for x in point_str.split(',')]
+
+
+def get_polyline(polyline):
+    points = polyline.split(';')
+    return [get_point(x) for x in points]
+
+
+def get_polylines(district):
+    polylines = district['polyline'].split('|')
+    return list(map(get_polyline, polylines))
+
+
+def load_district(data_dir, adcode):
+    with open('{0}/{1}.json'.format(data_dir, adcode), encoding='utf-8') as in_file:
+        return json.load(in_file)
+
+
+def district_extract(district):
+    district = district['districts'][0]
+    return {
+        "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": get_polylines(district)
+        },
+        "properties": {
+            "adcode": district['adcode'],
+            "name": district['name'],
+            "center": get_center(district)
+        }
+    }
+
+
+def district_extract_to_file(district, out_dir):
+    adcode = district['adcode']
+    extracted = district_extract(district)
+    with open('{0}/{1}.json'.format(out_dir, adcode), mode='w', encoding='utf-8') as out_file:
+        json.dump(extracted, out_file, indent=4, ensure_ascii=False)
 
 
 def run(argv):
@@ -102,8 +143,16 @@ def run(argv):
     out_dir = argv[3]
     raw_skeleton = load_skeleton(skeleton_path)
     unified_skeleton = build_skeleton(raw_skeleton)
-    with open('{0}/skeleton.json'.format(out_dir), mode='w', encoding='utf-8') as out_file:
-        json.dump(unified_skeleton, out_file, indent=4, ensure_ascii=False)
+    # with open('{0}/skeleton.json'.format(out_dir), mode='w', encoding='utf-8') as out_file:
+    #     json.dump(unified_skeleton, out_file, indent=4, ensure_ascii=False)
+
+    for item in unified_skeleton:
+        adcode = item['adcode']
+        district = load_district(in_dir, adcode)
+        district_extract_to_file(district, out_dir)
+        for (key, value) in item.items():
+            print(key, 'this')
+        pass
 
 
 if __name__ == '__main__':
