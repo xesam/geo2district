@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class Relations {
 
-    public Relation getRelation(Point target, List<Point> boundary) {
+    public static Relation getRelation(Point target, List<Point> boundary) {
         int crossCount = 0;
         if (boundary.size() < 3) {
             return Relation.OUT;
@@ -37,7 +37,7 @@ public class Relations {
         return (crossCount % 2 != 0) ? Relation.IN : Relation.OUT;
     }
 
-    private boolean isSamePoint(Point pointA, Point pointB) {
+    private static boolean isSamePoint(Point pointA, Point pointB) {
         return pointA.getLng() == pointB.getLng() && pointA.getLat() == pointB.getLat();
     }
 }

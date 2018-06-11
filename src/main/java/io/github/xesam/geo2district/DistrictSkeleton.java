@@ -22,12 +22,11 @@ public class DistrictSkeleton {
         File skeletonFile = new File("/data/district/unified/skeleton.json");
         DistrictSkeleton districtSkeleton = DistrictSkeleton.from(skeletonFile);
         Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "武汉市");
-        if (sub.isPresent()) {
-            DistrictSkeleton skeleton = sub.get();
+        sub.ifPresent(skeleton -> {
             System.out.println(skeleton.adcode);
             System.out.println(skeleton.name);
             System.out.println(skeleton.center[0] + "," + skeleton.center[1]);
-        }
+        });
     }
 
     public static DistrictSkeleton from(File skeletonFile) {
@@ -41,11 +40,15 @@ public class DistrictSkeleton {
         }
     }
 
+    @SerializedName("adcode")
     private String adcode = "";
+    @SerializedName("name")
     private String name = "";
+    @SerializedName("center")
     private double[] center = {0, 0};
     @SerializedName("districts")
     private List<DistrictSkeleton> subSkeletons = new ArrayList<>();
+    private Boundary boundary = new Boundary();
 
     public DistrictSkeleton() {
 
@@ -72,7 +75,11 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public Optional<DistrictGeo> loadGeoFrom(GeoSource geoSource) {
-        return Optional.empty();
+    public void inflateBoundary(GeoSource geoSource) {
+        Optional<Boundary> boundaryOptional = geoSource.load(adcode);
+        boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
+        for (DistrictSkeleton skeleton : subSkeletons) {
+            skeleton.inflateBoundary(geoSource);
+        }
     }
 }

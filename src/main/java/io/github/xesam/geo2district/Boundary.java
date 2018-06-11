@@ -1,6 +1,8 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
+import io.github.xesam.geo.Relation;
+import io.github.xesam.geo.Relations;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,15 +14,24 @@ import java.util.List;
  */
 public class Boundary {
 
-    private List<SubBoundary> subs = new LinkedList<>();
-
     private List<List<Point>> boundaries = new LinkedList<>();
 
     public void add(List<Point> polygon) {
         boundaries.add(polygon);
     }
 
+    @Deprecated
     public List<List<Point>> value() {
         return boundaries;
+    }
+
+    public Relation relationOf(Point point) {
+        for (List<Point> points : boundaries) {
+            Relation relation = Relations.getRelation(point, points);
+            if (relation == Relation.ON || relation == Relation.IN) {
+                return relation;
+            }
+        }
+        return Relation.OUT;
     }
 }
