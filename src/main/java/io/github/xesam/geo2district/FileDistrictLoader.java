@@ -14,6 +14,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+
+@Deprecated
 public class FileDistrictLoader implements DistrictLoader {
 
     private String startFilePath;
