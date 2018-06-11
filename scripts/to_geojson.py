@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 from functools import reduce
 
 MUNICIPALITIES = ["北京市", "上海市", "天津市", "重庆市"]
@@ -14,12 +15,12 @@ def is_special(name):
     return name in SPECIAL
 
 
-def load_skeleton(skeleton_path):
+def skeleton_load(skeleton_path):
     with open(skeleton_path, encoding='utf-8') as in_file:
         return json.load(in_file)
 
 
-def build_skeleton(raw_skeleton):
+def skeleton_extract(raw_skeleton):
     countries = raw_skeleton['districts']
     unified_countries = []
     for country in countries:
@@ -110,13 +111,12 @@ def get_polylines(district):
     return list(map(get_polyline, polylines))
 
 
-def load_district(data_dir, adcode):
+def district_load(data_dir, adcode):
     with open('{0}/{1}.json'.format(data_dir, adcode), encoding='utf-8') as in_file:
-        return json.load(in_file)
+        return json.load(in_file)['districts'][0]
 
 
 def district_extract(district):
-    district = district['districts'][0]
     return {
         "geometry": {
             "type": "MultiPolygon",
@@ -130,29 +130,37 @@ def district_extract(district):
     }
 
 
-def district_extract_to_file(district, out_dir):
+def district_extract_to_file(district, out_dir, override=True):
     adcode = district['adcode']
-    extracted = district_extract(district)
-    with open('{0}/{1}.json'.format(out_dir, adcode), mode='w', encoding='utf-8') as out_file:
-        json.dump(extracted, out_file, indent=4, ensure_ascii=False)
+    out_file_path = '{0}/{1}.json'.format(out_dir, adcode)
+    write_flag = override or (not os.path.exists(out_file_path))
+    if write_flag:
+        extracted = district_extract(district)
+        with open('{0}/{1}.json'.format(out_dir, adcode), mode='w', encoding='utf-8') as out_file:
+            json.dump(extracted, out_file, indent=4, ensure_ascii=False)
+
+
+def districts_extract(district_profile, data_dir, out_dir):
+    adcode = district_profile['adcode']
+    district = district_load(data_dir, adcode)
+    district_extract_to_file(district, out_dir, False)
+    sub_districts = district_profile['districts']
+    for sub_district in sub_districts:
+        districts_extract(sub_district, data_dir, out_dir)
 
 
 def run(argv):
     skeleton_path = argv[1]
-    in_dir = argv[2]
+    data_dir = argv[2]
     out_dir = argv[3]
-    raw_skeleton = load_skeleton(skeleton_path)
-    unified_skeleton = build_skeleton(raw_skeleton)
-    # with open('{0}/skeleton.json'.format(out_dir), mode='w', encoding='utf-8') as out_file:
-    #     json.dump(unified_skeleton, out_file, indent=4, ensure_ascii=False)
+    raw_skeleton = skeleton_load(skeleton_path)
+    unified_skeleton = skeleton_extract(raw_skeleton)
 
-    for item in unified_skeleton:
-        adcode = item['adcode']
-        district = load_district(in_dir, adcode)
-        district_extract_to_file(district, out_dir)
-        for (key, value) in item.items():
-            print(key, 'this')
-        pass
+    with open('{0}/skeleton.json'.format(out_dir), mode='w', encoding='utf-8') as out_file:
+        json.dump(unified_skeleton, out_file, indent=4, ensure_ascii=False)
+
+    for district in unified_skeleton:
+        districts_extract(district, data_dir, out_dir)
 
 
 if __name__ == '__main__':
