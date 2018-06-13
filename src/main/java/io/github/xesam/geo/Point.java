@@ -19,4 +19,12 @@ public class Point {
     public double getLat() {
         return lat;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "lng=" + lng +
+                ", lat=" + lat +
+                '}';
+    }
 }

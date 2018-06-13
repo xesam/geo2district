@@ -1,9 +1,11 @@
 package io.github.xesam.geo2district;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.sun.istack.internal.Nullable;
+import io.github.xesam.geo.Point;
 import io.github.xesam.geo2district.data.GeoSource;
 
 import java.io.File;
@@ -25,13 +27,15 @@ public class DistrictSkeleton {
         sub.ifPresent(skeleton -> {
             System.out.println(skeleton.adcode);
             System.out.println(skeleton.name);
-            System.out.println(skeleton.center[0] + "," + skeleton.center[1]);
+            System.out.println(skeleton.center);
         });
     }
 
     public static DistrictSkeleton from(File skeletonFile) {
         try (FileReader jsonReader = new FileReader(skeletonFile)) {
-            Gson gson = new Gson();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Point.class, new PointDeserializer());
+            Gson gson = gsonBuilder.create();
             return gson.fromJson(jsonReader, new TypeToken<DistrictSkeleton>() {
             }.getType());
         } catch (IOException e) {
@@ -45,7 +49,7 @@ public class DistrictSkeleton {
     @SerializedName("name")
     private String name = "";
     @SerializedName("center")
-    private double[] center = {0, 0};
+    private Point center;
     @SerializedName("districts")
     private List<DistrictSkeleton> subSkeletons = new ArrayList<>();
     private Boundary boundary = new Boundary();
