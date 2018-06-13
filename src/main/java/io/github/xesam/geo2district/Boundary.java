@@ -14,15 +14,19 @@ import java.util.List;
  */
 public class Boundary {
 
-    private List<List<Point>> boundaries = new LinkedList<>();
+    private List<List<Point>> boundaries;
 
-    public void add(List<Point> polygon) {
-        boundaries.add(polygon);
+    public Boundary() {
+        this(new LinkedList<>());
+    }
+
+    public Boundary(List<List<Point>> boundaries) {
+        this.boundaries = boundaries;
     }
 
     @Deprecated
-    public List<List<Point>> value() {
-        return boundaries;
+    public void add(List<Point> polygon) {
+        boundaries.add(polygon);
     }
 
     public Relation relationOf(Point point) {

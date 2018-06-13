@@ -2,7 +2,6 @@ package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
 import io.github.xesam.geo.Relation;
-import io.github.xesam.geo.Relations;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,11 +43,6 @@ public class Geo2district {
 
     private boolean isInDistrict(Point point, District district) {
         Boundary boundary = district.getBoundary();
-        for (List<Point> polygon : boundary.value()) {
-            if (Relations.getRelation(point, polygon) == Relation.IN) {
-                return true;
-            }
-        }
-        return false;
+        return boundary.relationOf(point) == Relation.IN;
     }
 }
