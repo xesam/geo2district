@@ -14,28 +14,47 @@ import java.util.List;
  */
 public class Boundary {
 
-    private List<List<Point>> boundaries;
+    private List<Polygon> polygons;
 
     public Boundary() {
         this(new LinkedList<>());
     }
 
-    public Boundary(List<List<Point>> boundaries) {
-        this.boundaries = boundaries;
+    public Boundary(List<Polygon> polygons) {
+        this.polygons = polygons;
     }
 
     @Deprecated
     public void add(List<Point> polygon) {
-        boundaries.add(polygon);
     }
 
     public Relation relationOf(Point point) {
-        for (List<Point> points : boundaries) {
-            Relation relation = Relations.getRelation(point, points);
+        for (Polygon polygon : polygons) {
+            Relation relation = polygon.relationOf(point);
             if (relation == Relation.ON || relation == Relation.IN) {
                 return relation;
             }
         }
         return Relation.OUT;
+    }
+
+    /**
+     * @author xesamguo@gmail.com
+     */
+    public static class Polygon {
+
+        private List<Point> points;
+
+        public Polygon(List<Point> points) {
+            this.points = points;
+        }
+
+        public Relation relationOf(Point point) {
+            Relation relation = Relations.getRelation(point, points);
+            if (relation == Relation.ON || relation == Relation.IN) {
+                return relation;
+            }
+            return Relation.OUT;
+        }
     }
 }

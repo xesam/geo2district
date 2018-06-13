@@ -1,7 +1,7 @@
 package io.github.xesam.geo2district.data;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.xesam.geo.Point;
+import io.github.xesam.geo2district.Boundary;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +11,9 @@ import java.util.List;
  */
 class MultiPolygon {
     @SerializedName("coordinates")
-    private List<List<Point>> coordinates = new ArrayList<>();
+    private List<Boundary.Polygon> coordinates = new ArrayList<>();
 
-    public List<List<Point>> getCoordinates() {
+    public List<Boundary.Polygon> getCoordinates() {
         return coordinates;
     }
 }
