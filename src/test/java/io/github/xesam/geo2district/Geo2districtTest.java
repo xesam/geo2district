@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
+@Deprecated
 public class Geo2districtTest {
     static Geo2district geo2district;
 

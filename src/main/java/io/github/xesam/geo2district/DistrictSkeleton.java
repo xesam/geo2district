@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.sun.istack.internal.Nullable;
 import io.github.xesam.geo.Point;
+import io.github.xesam.geo.Relation;
 import io.github.xesam.geo2district.data.GeoSource;
 
 import java.io.File;
@@ -58,6 +59,18 @@ public class DistrictSkeleton {
 
     }
 
+    public String getAdcode() {
+        return adcode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Point getCenter() {
+        return center;
+    }
+
     public Optional<DistrictSkeleton> getSubSkeleton(String... subNames) {
         DistrictSkeleton current = this;
         for (String name : subNames) {
@@ -85,5 +98,9 @@ public class DistrictSkeleton {
         for (DistrictSkeleton skeleton : subSkeletons) {
             skeleton.inflateBoundary(geoSource);
         }
+    }
+
+    public Relation relationOf(Point point) {
+        return boundary.relationOf(point);
     }
 }
