@@ -8,6 +8,7 @@ import com.sun.istack.internal.Nullable;
 import io.github.xesam.geo.Point;
 import io.github.xesam.geo.Relation;
 import io.github.xesam.geo2district.data.GeoSource;
+import io.github.xesam.geo2district.data.PointDeserializer;
 
 import java.io.File;
 import java.io.FileReader;
@@ -20,17 +21,6 @@ import java.util.Optional;
  * @author xesamguo@gmail.com
  */
 public class DistrictSkeleton {
-
-    public static void main(String[] args) {
-        File skeletonFile = new File("/data/district/unified/skeleton.json");
-        DistrictSkeleton districtSkeleton = DistrictSkeleton.from(skeletonFile);
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "武汉市");
-        sub.ifPresent(skeleton -> {
-            System.out.println(skeleton.adcode);
-            System.out.println(skeleton.name);
-            System.out.println(skeleton.center);
-        });
-    }
 
     public static DistrictSkeleton from(File skeletonFile) {
         try (FileReader jsonReader = new FileReader(skeletonFile)) {
