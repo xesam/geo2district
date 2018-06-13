@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 /**
  * @author xesamguo@gmail.com
  */
-public class PointDeserializer implements JsonDeserializer<Point> {
+class PointDeserializer implements JsonDeserializer<Point> {
 
     @Override
     public Point deserialize(final JsonElement jsonElement, final Type typeOfT, final JsonDeserializationContext context)
