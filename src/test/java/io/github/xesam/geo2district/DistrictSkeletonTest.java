@@ -28,14 +28,16 @@ public class DistrictSkeletonTest {
     @Test
     public void getSubSkeleton() {
         Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "武汉市");
+        System.out.println(sub);
 
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
+        District wuhan = skeleton.getDistrict();
 
-        Assert.assertEquals("420100", skeleton.getAdcode());
-        Assert.assertEquals("武汉市", skeleton.getName());
-        Assert.assertEquals(114.305469, skeleton.getCenter().getLng(), 0.00001);
-        Assert.assertEquals(30.593175, skeleton.getCenter().getLat(), 0.00001);
+        Assert.assertEquals("420100", wuhan.getAdcode());
+        Assert.assertEquals("武汉市", wuhan.getName());
+        Assert.assertEquals(114.305469, wuhan.getCenter().getLng(), 0.00001);
+        Assert.assertEquals(30.593175, wuhan.getCenter().getLat(), 0.00001);
     }
 
     @Test
@@ -44,8 +46,9 @@ public class DistrictSkeletonTest {
         Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("北京市");
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
-        skeleton.inflateSimpleBoundary(geoSource);
-        Relation relation = skeleton.relationOf(point);
+        District district = skeleton.getDistrict();
+        district.inflateBoundary(geoSource);
+        Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
 
@@ -55,8 +58,9 @@ public class DistrictSkeletonTest {
         Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省");
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
-        skeleton.inflateSimpleBoundary(geoSource);
-        Relation relation = skeleton.relationOf(point);
+        District district = skeleton.getDistrict();
+        district.inflateBoundary(geoSource);
+        Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
 
@@ -66,16 +70,18 @@ public class DistrictSkeletonTest {
         Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("香港特别行政区");
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
-        skeleton.inflateSimpleBoundary(geoSource);
-        Relation relation = skeleton.relationOf(point);
+        District district = skeleton.getDistrict();
+        district.inflateBoundary(geoSource);
+        Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
 
     @Test
     public void toDistrictNothing() {
         Point point = new Point(14.31, 30.52);
-        Relation relation = districtSkeleton.relationOf(point);
-        districtSkeleton.inflateSimpleBoundary(geoSource);
+        District district = districtSkeleton.getDistrict();
+        district.inflateBoundary(geoSource);
+        Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.OUT, relation);
     }
 }
