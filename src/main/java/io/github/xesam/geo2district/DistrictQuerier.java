@@ -15,6 +15,14 @@ public class DistrictQuerier {
         this.districtSkeleton = districtSkeleton;
     }
 
+    public Optional<District> query(String... subNames) {
+        Optional<DistrictSkeleton> skeleton = districtSkeleton.getSubSkeleton(subNames);
+        if (skeleton.isPresent()) {
+            return Optional.ofNullable(skeleton.get().getDistrict());
+        }
+        return Optional.empty();
+    }
+
     public Optional<District> query(Point point) {
         return Optional.empty();
     }

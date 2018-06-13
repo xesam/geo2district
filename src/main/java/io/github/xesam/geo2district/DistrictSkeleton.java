@@ -80,10 +80,10 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public void inflateDetailBoundary(GeoSource geoSource) {
+    public void inflateBoundary(GeoSource geoSource) {
         district.inflateBoundary(geoSource);
         for (DistrictSkeleton skeleton : subSkeletons) {
-            skeleton.inflateDetailBoundary(geoSource);
+            skeleton.inflateBoundary(geoSource);
         }
     }
 }

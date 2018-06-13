@@ -19,7 +19,7 @@ public class District {
     @SerializedName("name")
     private String name = "";
     @SerializedName("center")
-    private Point center;
+    private Point center = new Point(-1, -1);
     private Boundary boundary;
 
     public District(String adcode) {
@@ -34,6 +34,7 @@ public class District {
         return name;
     }
 
+    @Deprecated
     void setName(String name) {
         this.name = name;
     }
@@ -46,6 +47,7 @@ public class District {
         return boundary;
     }
 
+    @Deprecated
     public void setBoundary(Boundary boundary) {
         this.boundary = boundary;
     }
