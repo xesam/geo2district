@@ -41,9 +41,12 @@ public class DistrictSkeleton {
     private String name = "";
     @SerializedName("center")
     private Point center;
+    /**
+     * 当前层级区域的边界，不包含子区域边界
+     */
+    private Boundary boundary = new Boundary();
     @SerializedName("districts")
     private List<DistrictSkeleton> subSkeletons = new ArrayList<>();
-    private Boundary boundary = new Boundary();
 
     public DistrictSkeleton() {
 
@@ -82,11 +85,16 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public void inflateBoundary(GeoSource geoSource) {
+    public void inflateSimpleBoundary(GeoSource geoSource) {
+        Optional<Boundary> boundaryOptional = geoSource.load(adcode);
+        boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
+    }
+
+    public void inflateDetailBoundary(GeoSource geoSource) {
         Optional<Boundary> boundaryOptional = geoSource.load(adcode);
         boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
         for (DistrictSkeleton skeleton : subSkeletons) {
-            skeleton.inflateBoundary(geoSource);
+            skeleton.inflateSimpleBoundary(geoSource);
         }
     }
 
