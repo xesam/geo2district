@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * 区域
+ *
+ * @author xesamguo@gmail.com
  */
 public class District {
 
