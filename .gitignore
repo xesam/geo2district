@@ -2,3 +2,5 @@
 *.iml
 .vscode
 target/
+
+tmp*
