@@ -154,8 +154,7 @@ def run(argv):
     with open('{0}/skeleton.json'.format(out_dir), mode='w', encoding='utf-8') as out_file:
         json.dump(unified_skeleton, out_file, indent=4, ensure_ascii=False)
 
-    for district in unified_skeleton:
-        districts_extract(district, data_dir, out_dir)
+    districts_extract(unified_skeleton, data_dir, out_dir)
 
 
 if __name__ == '__main__':
