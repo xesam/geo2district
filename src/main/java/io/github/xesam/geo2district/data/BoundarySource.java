@@ -7,6 +7,6 @@ import java.util.Optional;
 /**
  * @author xesamguo@gmail.com
  */
-public interface GeoSource {
+public interface BoundarySource {
     Optional<Boundary> load(String adcode);
 }

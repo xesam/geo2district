@@ -3,7 +3,7 @@ package io.github.xesam.geo2district;
 import com.google.gson.annotations.SerializedName;
 import io.github.xesam.geo.Point;
 import io.github.xesam.geo.Relation;
-import io.github.xesam.geo2district.data.GeoSource;
+import io.github.xesam.geo2district.data.BoundarySource;
 
 import java.util.Optional;
 
@@ -38,11 +38,11 @@ public class District {
         return center;
     }
 
-    public void inflateBoundary(GeoSource geoSource) {
+    public void inflateBoundary(BoundarySource boundarySource) {
         if (boundary != null) {
             return;
         }
-        Optional<Boundary> boundaryOptional = geoSource.load(getAdcode());
+        Optional<Boundary> boundaryOptional = boundarySource.load(getAdcode());
         boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
     }
 

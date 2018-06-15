@@ -7,7 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
 import com.sun.istack.internal.Nullable;
 import io.github.xesam.geo.Point;
-import io.github.xesam.geo2district.data.GeoSource;
+import io.github.xesam.geo2district.data.BoundarySource;
 import io.github.xesam.geo2district.data.PointDeserializer;
 
 import java.io.File;
@@ -80,10 +80,10 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public void inflateBoundary(GeoSource geoSource) {
-        district.inflateBoundary(geoSource);
+    public void inflateBoundary(BoundarySource boundarySource) {
+        district.inflateBoundary(boundarySource);
         for (DistrictSkeleton skeleton : subSkeletons) {
-            skeleton.inflateBoundary(geoSource);
+            skeleton.inflateBoundary(boundarySource);
         }
     }
 }

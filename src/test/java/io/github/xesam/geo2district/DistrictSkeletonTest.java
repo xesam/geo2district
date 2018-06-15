@@ -2,8 +2,8 @@ package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
 import io.github.xesam.geo.Relation;
-import io.github.xesam.geo2district.data.FileGeoSource;
-import io.github.xesam.geo2district.data.GeoSource;
+import io.github.xesam.geo2district.data.FileBoundarySource;
+import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -16,13 +16,13 @@ import java.util.Optional;
  */
 public class DistrictSkeletonTest {
     static DistrictSkeleton districtSkeleton;
-    static GeoSource geoSource;
+    static BoundarySource boundarySource;
 
     @BeforeClass
     public static void beforeClass() {
         File skeletonFile = new File("/data/district/unified/skeleton.json");
         districtSkeleton = DistrictSkeleton.from(skeletonFile);
-        geoSource = new FileGeoSource(new File("/data/district/unified"));
+        boundarySource = new FileBoundarySource(new File("/data/district/unified"));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class DistrictSkeletonTest {
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
         District district = skeleton.getDistrict();
-        district.inflateBoundary(geoSource);
+        district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -59,7 +59,7 @@ public class DistrictSkeletonTest {
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
         District district = skeleton.getDistrict();
-        district.inflateBoundary(geoSource);
+        district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -71,7 +71,7 @@ public class DistrictSkeletonTest {
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
         District district = skeleton.getDistrict();
-        district.inflateBoundary(geoSource);
+        district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -80,7 +80,7 @@ public class DistrictSkeletonTest {
     public void toDistrictNothing() {
         Point point = new Point(14.31, 30.52);
         District district = districtSkeleton.getDistrict();
-        district.inflateBoundary(geoSource);
+        district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.OUT, relation);
     }

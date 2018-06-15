@@ -14,11 +14,11 @@ import java.util.Optional;
 /**
  * @author xesamguo@gmail.com
  */
-public class FileGeoSource implements GeoSource {
+public class FileBoundarySource implements BoundarySource {
 
     private File dataDir;
 
-    public FileGeoSource(File dataDir) {
+    public FileBoundarySource(File dataDir) {
         this.dataDir = dataDir;
     }
 
