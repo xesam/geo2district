@@ -21,21 +21,21 @@ import java.util.Optional;
 /**
  * @author xesamguo@gmail.com
  */
-public class DistrictSkeleton {
+public class DistrictTree {
 
-    public static DistrictSkeleton from(File skeletonFile) {
+    public static DistrictTree from(File skeletonFile) {
         try (FileReader jsonReader = new FileReader(skeletonFile)) {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Point.class, new PointDeserializer())
-                    .registerTypeAdapter(DistrictSkeleton.class, (JsonDeserializer<DistrictSkeleton>) (json, typeOfT, context) -> {
+                    .registerTypeAdapter(DistrictTree.class, (JsonDeserializer<DistrictTree>) (json, typeOfT, context) -> {
                         District district = context.deserialize(json, District.class);
                         JsonArray jDistricts = json.getAsJsonObject().getAsJsonArray("districts");
-                        List<DistrictSkeleton> subSkeletons = context.deserialize(jDistricts, new TypeToken<List<DistrictSkeleton>>() {
+                        List<DistrictTree> subSkeletons = context.deserialize(jDistricts, new TypeToken<List<DistrictTree>>() {
                         }.getType());
-                        return new DistrictSkeleton(district, subSkeletons);
+                        return new DistrictTree(district, subSkeletons);
                     })
                     .create();
-            return gson.fromJson(jsonReader, new TypeToken<DistrictSkeleton>() {
+            return gson.fromJson(jsonReader, new TypeToken<DistrictTree>() {
             }.getType());
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,15 +44,15 @@ public class DistrictSkeleton {
     }
 
     private District district;
-    private List<DistrictSkeleton> subSkeletons = new ArrayList<>();
+    private List<DistrictTree> subTrees = new ArrayList<>();
 
-    private DistrictSkeleton() {
+    private DistrictTree() {
 
     }
 
-    public DistrictSkeleton(District district, List<DistrictSkeleton> subSkeletons) {
+    public DistrictTree(District district, List<DistrictTree> subTrees) {
         this.district = district;
-        this.subSkeletons = subSkeletons;
+        this.subTrees = subTrees;
     }
 
     public District getDistrict() {
@@ -64,28 +64,28 @@ public class DistrictSkeleton {
         return relation == Relation.IN;
     }
 
-    public Optional<DistrictSkeleton> getSubSkeletonByPoint(Point point) {
+    public Optional<DistrictTree> getTreeByPoint(Point point) {
         //todo 这一步判断是否有必要
         if (!isPointInDistrict(district, point)) {
             return Optional.empty();
         }
-        return getSubSkeletonByPoint(this, point);
+        return getTreeByPoint(this, point);
     }
 
-    private Optional<DistrictSkeleton> getSubSkeletonByPoint(DistrictSkeleton districtSkeleton, Point point) {
-        List<DistrictSkeleton> subs = districtSkeleton.subSkeletons;
-        for (DistrictSkeleton sub : subs) {
+    private Optional<DistrictTree> getTreeByPoint(DistrictTree districtTree, Point point) {
+        List<DistrictTree> subs = districtTree.subTrees;
+        for (DistrictTree sub : subs) {
             if (isPointInDistrict(sub.district, point)) {
-                return getSubSkeletonByPoint(sub, point);
+                return getTreeByPoint(sub, point);
             }
         }
-        return Optional.of(districtSkeleton);
+        return Optional.of(districtTree);
     }
 
-    public Optional<DistrictSkeleton> getSubSkeletonByName(String... subNames) {
-        DistrictSkeleton current = this;
+    public Optional<DistrictTree> getTreeByName(String... subNames) {
+        DistrictTree current = this;
         for (String name : subNames) {
-            current = findKSubSkeleton(current.subSkeletons, name);
+            current = findTreeByName(current.subTrees, name);
             if (current == null) {
                 return Optional.empty();
             }
@@ -94,11 +94,11 @@ public class DistrictSkeleton {
     }
 
     @Nullable
-    private DistrictSkeleton findKSubSkeleton(List<DistrictSkeleton> currentSkeletons, String skeletonName) {
-        for (DistrictSkeleton skeleton : currentSkeletons) {
-            District district = skeleton.getDistrict();
+    private DistrictTree findTreeByName(List<DistrictTree> trees, String skeletonName) {
+        for (DistrictTree tree : trees) {
+            District district = tree.getDistrict();
             if (district.getName().equals(skeletonName)) {
-                return skeleton;
+                return tree;
             }
         }
         return null;
@@ -112,7 +112,7 @@ public class DistrictSkeleton {
         if (depth <= 0) {
             return;
         }
-        for (DistrictSkeleton skeleton : subSkeletons) {
+        for (DistrictTree skeleton : subTrees) {
             skeleton.inflateBoundaryWithDepth(boundarySource, depth - 1);
         }
     }

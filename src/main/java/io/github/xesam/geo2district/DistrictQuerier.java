@@ -9,14 +9,14 @@ import java.util.Optional;
  */
 public class DistrictQuerier {
 
-    private DistrictSkeleton districtSkeleton;
+    private DistrictTree districtTree;
 
-    public DistrictQuerier(DistrictSkeleton districtSkeleton) {
-        this.districtSkeleton = districtSkeleton;
+    public DistrictQuerier(DistrictTree districtTree) {
+        this.districtTree = districtTree;
     }
 
     public Optional<District> query(String... subNames) {
-        Optional<DistrictSkeleton> skeleton = districtSkeleton.getSubSkeletonByName(subNames);
+        Optional<DistrictTree> skeleton = districtTree.getTreeByName(subNames);
         if (skeleton.isPresent()) {
             return Optional.ofNullable(skeleton.get().getDistrict());
         }
@@ -24,7 +24,7 @@ public class DistrictQuerier {
     }
 
     public Optional<District> query(Point point) {
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeletonByPoint(point);
+        Optional<DistrictTree> sub = districtTree.getTreeByPoint(point);
         if (sub.isPresent()) {
             return Optional.ofNullable(sub.get().getDistrict());
         }
