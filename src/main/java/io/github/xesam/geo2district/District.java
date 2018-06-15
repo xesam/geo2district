@@ -34,22 +34,8 @@ public class District {
         return name;
     }
 
-    @Deprecated
-    void setName(String name) {
-        this.name = name;
-    }
-
     public Point getCenter() {
         return center;
-    }
-
-    public Boundary getBoundary() {
-        return boundary;
-    }
-
-    @Deprecated
-    public void setBoundary(Boundary boundary) {
-        this.boundary = boundary;
     }
 
     public void inflateBoundary(GeoSource geoSource) {

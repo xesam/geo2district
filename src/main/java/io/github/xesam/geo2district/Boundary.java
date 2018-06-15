@@ -24,10 +24,6 @@ public class Boundary {
         this.polygons = polygons;
     }
 
-    @Deprecated
-    public void add(List<Point> polygon) {
-    }
-
     public Relation relationOf(Point point) {
         for (Polygon polygon : polygons) {
             Relation relation = polygon.relationOf(point);
