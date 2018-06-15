@@ -80,10 +80,20 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public void inflateBoundary(BoundarySource boundarySource) {
-        district.inflateBoundary(boundarySource);
-        for (DistrictSkeleton skeleton : subSkeletons) {
-            skeleton.inflateBoundary(boundarySource);
+    public void inflateBoundaryByDepth(BoundarySource boundarySource, int depth) {
+        if (district == null) {
+            return;
         }
+        district.inflateBoundary(boundarySource);
+        if (depth <= 0) {
+            return;
+        }
+        for (DistrictSkeleton skeleton : subSkeletons) {
+            skeleton.inflateBoundaryByDepth(boundarySource, depth - 1);
+        }
+    }
+
+    public void inflateBoundaryAll(BoundarySource boundarySource) {
+        inflateBoundaryByDepth(boundarySource, Integer.MAX_VALUE);
     }
 }
