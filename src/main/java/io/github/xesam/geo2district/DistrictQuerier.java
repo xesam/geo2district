@@ -24,6 +24,10 @@ public class DistrictQuerier {
     }
 
     public Optional<District> query(Point point) {
+        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton(point);
+        if (sub.isPresent()) {
+            return Optional.ofNullable(sub.get().getDistrict());
+        }
         return Optional.empty();
     }
 }

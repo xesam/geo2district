@@ -7,6 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
 import com.sun.istack.internal.Nullable;
 import io.github.xesam.geo.Point;
+import io.github.xesam.geo.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 import io.github.xesam.geo2district.data.PointDeserializer;
 
@@ -58,6 +59,23 @@ public class DistrictSkeleton {
         return district;
     }
 
+    public List<DistrictSkeleton> getAllSubSkeleton(String... subNames) {
+        return subSkeletons;
+    }
+
+    private boolean isPointInDistrict(District district, Point point) {
+        Relation relation = district.relationOf(point);
+        return relation == Relation.ON;
+    }
+
+    public Optional<DistrictSkeleton> getSubSkeleton(Point point) {
+        if (!isPointInDistrict(district, point)) {
+            return Optional.empty();
+        }
+
+        return Optional.empty();
+    }
+
     public Optional<DistrictSkeleton> getSubSkeleton(String... subNames) {
         DistrictSkeleton current = this;
         for (String name : subNames) {
@@ -96,4 +114,5 @@ public class DistrictSkeleton {
     public void inflateBoundaryAll(BoundarySource boundarySource) {
         inflateBoundaryByDepth(boundarySource, Integer.MAX_VALUE);
     }
+
 }
