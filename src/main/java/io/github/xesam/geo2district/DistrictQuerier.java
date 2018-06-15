@@ -16,7 +16,7 @@ public class DistrictQuerier {
     }
 
     public Optional<District> query(String... subNames) {
-        Optional<DistrictSkeleton> skeleton = districtSkeleton.getSubSkeleton(subNames);
+        Optional<DistrictSkeleton> skeleton = districtSkeleton.getSubSkeletonByName(subNames);
         if (skeleton.isPresent()) {
             return Optional.ofNullable(skeleton.get().getDistrict());
         }
@@ -24,7 +24,7 @@ public class DistrictQuerier {
     }
 
     public Optional<District> query(Point point) {
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton(point);
+        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeletonByPoint(point);
         if (sub.isPresent()) {
             return Optional.ofNullable(sub.get().getDistrict());
         }

@@ -22,8 +22,7 @@ public class District {
     private Point center = new Point(-1, -1);
     private Boundary boundary;
 
-    public District(String adcode) {
-        this.adcode = adcode;
+    public District() {
     }
 
     public String getAdcode() {
@@ -48,7 +47,7 @@ public class District {
 
     public Relation relationOf(Point point) {
         if (boundary == null) {
-            throw new RuntimeException("no boundary found");
+            return Relation.OUT;
         }
         return boundary.relationOf(point);
     }

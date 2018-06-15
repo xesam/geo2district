@@ -59,24 +59,30 @@ public class DistrictSkeleton {
         return district;
     }
 
-    public List<DistrictSkeleton> getAllSubSkeleton(String... subNames) {
-        return subSkeletons;
-    }
-
     private boolean isPointInDistrict(District district, Point point) {
         Relation relation = district.relationOf(point);
-        return relation == Relation.ON;
+        return relation == Relation.IN;
     }
 
-    public Optional<DistrictSkeleton> getSubSkeleton(Point point) {
+    public Optional<DistrictSkeleton> getSubSkeletonByPoint(Point point) {
+        //todo 这一步判断是否有必要
         if (!isPointInDistrict(district, point)) {
             return Optional.empty();
         }
-
-        return Optional.empty();
+        return getSubSkeletonByPoint(this, point);
     }
 
-    public Optional<DistrictSkeleton> getSubSkeleton(String... subNames) {
+    private Optional<DistrictSkeleton> getSubSkeletonByPoint(DistrictSkeleton districtSkeleton, Point point) {
+        List<DistrictSkeleton> subs = districtSkeleton.subSkeletons;
+        for (DistrictSkeleton sub : subs) {
+            if (isPointInDistrict(sub.district, point)) {
+                return getSubSkeletonByPoint(sub, point);
+            }
+        }
+        return Optional.of(districtSkeleton);
+    }
+
+    public Optional<DistrictSkeleton> getSubSkeletonByName(String... subNames) {
         DistrictSkeleton current = this;
         for (String name : subNames) {
             current = findKSubSkeleton(current.subSkeletons, name);
@@ -98,7 +104,7 @@ public class DistrictSkeleton {
         return null;
     }
 
-    public void inflateBoundaryByDepth(BoundarySource boundarySource, int depth) {
+    public void inflateBoundaryWithDepth(BoundarySource boundarySource, int depth) {
         if (district == null) {
             return;
         }
@@ -107,12 +113,12 @@ public class DistrictSkeleton {
             return;
         }
         for (DistrictSkeleton skeleton : subSkeletons) {
-            skeleton.inflateBoundaryByDepth(boundarySource, depth - 1);
+            skeleton.inflateBoundaryWithDepth(boundarySource, depth - 1);
         }
     }
 
     public void inflateBoundaryAll(BoundarySource boundarySource) {
-        inflateBoundaryByDepth(boundarySource, Integer.MAX_VALUE);
+        inflateBoundaryWithDepth(boundarySource, Integer.MAX_VALUE);
     }
 
 }

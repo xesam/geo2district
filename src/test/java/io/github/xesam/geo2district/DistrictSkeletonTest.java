@@ -1,7 +1,6 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
-import io.github.xesam.geo.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 import io.github.xesam.geo2district.data.FileBoundarySource;
 import org.junit.Assert;
@@ -20,14 +19,14 @@ public class DistrictSkeletonTest {
 
     @BeforeClass
     public static void beforeClass() {
-        File skeletonFile = new File("/data/district/unified/skeleton.json");
+        File skeletonFile = new File("d:/data.center/district/unified/skeleton.json");
         districtSkeleton = DistrictSkeleton.from(skeletonFile);
-        boundarySource = new FileBoundarySource(new File("/data/district/unified"));
+        boundarySource = new FileBoundarySource(new File("d:/data.center/district/unified"));
     }
 
     @Test
-    public void getSubSkeletonWuhan() {
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "武汉市");
+    public void getSubSkeletonByNameWuhan() {
+        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeletonByName("湖北省", "武汉市");
 
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
@@ -40,8 +39,8 @@ public class DistrictSkeletonTest {
     }
 
     @Test
-    public void getSubSkeletonWuhanHongshan() {
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "武汉市", "洪山区");
+    public void getSubSkeletonByNameWuhanHongshan() {
+        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeletonByName("湖北省", "武汉市", "洪山区");
 
         Assert.assertTrue(sub.isPresent());
         DistrictSkeleton skeleton = sub.get();
@@ -51,72 +50,38 @@ public class DistrictSkeletonTest {
     }
 
     @Test
-    public void getSubSkeletonNotFound() {
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省", "北京市");
+    public void getSubSkeletonByNameNotFound() {
+        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeletonByName("湖北省", "北京市");
 
         Assert.assertFalse(sub.isPresent());
     }
 
     @Test
-    public void toDistrictBeijing() {
-        Point point = new Point(116.415017, 39.917192);
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("北京市");
-        Assert.assertTrue(sub.isPresent());
-        DistrictSkeleton skeleton = sub.get();
-        District district = skeleton.getDistrict();
-        district.inflateBoundary(boundarySource);
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.IN, relation);
+    public void getSubSkeletonByPointInChina() {
+        districtSkeleton.inflateBoundaryWithDepth(boundarySource, 2);
+        Optional<DistrictSkeleton> wuhanSkeletonOptional = districtSkeleton.getSubSkeletonByPoint(new Point(114.305469, 30.593175));
+
+        Assert.assertTrue(wuhanSkeletonOptional.isPresent());
+
+        DistrictSkeleton skeleton = wuhanSkeletonOptional.get();
+        District wuhan = skeleton.getDistrict();
+
+        Assert.assertEquals("武汉市", wuhan.getName());
     }
 
     @Test
-    public void toDistrictWuhan() {
-        Point point = new Point(114.31, 30.52);
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("湖北省");
-        Assert.assertTrue(sub.isPresent());
-        DistrictSkeleton skeleton = sub.get();
-        District district = skeleton.getDistrict();
-        district.inflateBoundary(boundarySource);
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.IN, relation);
-    }
+    public void getSubSkeletonByPointInWuhan() {
 
-    @Test
-    public void toDistrictHongkong() {
-        Point point = new Point(114.264415, 22.166757);
-        Optional<DistrictSkeleton> sub = districtSkeleton.getSubSkeleton("香港特别行政区");
-        Assert.assertTrue(sub.isPresent());
-        DistrictSkeleton skeleton = sub.get();
-        District district = skeleton.getDistrict();
-        district.inflateBoundary(boundarySource);
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.IN, relation);
-    }
+        Optional<DistrictSkeleton> subOptional = districtSkeleton.getSubSkeletonByName("湖北省", "武汉市");
+        DistrictSkeleton sub = subOptional.get();
+        sub.inflateBoundaryWithDepth(boundarySource, 0);
+        Optional<DistrictSkeleton> wuhanSkeletonOptional = sub.getSubSkeletonByPoint(new Point(114.305469, 30.593175));
 
-    @Test
-    public void toDistrictNothing() {
-        Point point = new Point(14.31, 30.52);
-        District district = districtSkeleton.getDistrict();
-        district.inflateBoundary(boundarySource);
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.OUT, relation);
-    }
+        Assert.assertTrue(wuhanSkeletonOptional.isPresent());
 
-    @Test
-    public void toDistrictSkeletonIn() {
-        Point point = new Point(116.415017, 39.917192);
-        districtSkeleton.inflateBoundaryByDepth(boundarySource, 0);
-        District district = districtSkeleton.getDistrict();
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.IN, relation);
-    }
+        DistrictSkeleton skeleton = wuhanSkeletonOptional.get();
+        District wuhan = skeleton.getDistrict();
 
-    @Test
-    public void toDistrictSkeletonNothing() {
-        Point point = new Point(14.31, 30.52);
-        districtSkeleton.inflateBoundaryByDepth(boundarySource, 0);
-        District district = districtSkeleton.getDistrict();
-        Relation relation = district.relationOf(point);
-        Assert.assertEquals(Relation.OUT, relation);
+        Assert.assertEquals("武汉市", wuhan.getName());
     }
 }
