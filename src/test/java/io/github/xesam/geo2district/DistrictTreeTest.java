@@ -29,8 +29,8 @@ public class DistrictTreeTest {
         Optional<DistrictTree> sub = districtTree.getTreeByName("湖北省", "武汉市");
 
         Assert.assertTrue(sub.isPresent());
-        DistrictTree skeleton = sub.get();
-        District wuhan = skeleton.getDistrict();
+        DistrictTree wuhanTree = sub.get();
+        District wuhan = wuhanTree.getDistrict();
 
         Assert.assertEquals("420100", wuhan.getAdcode());
         Assert.assertEquals("武汉市", wuhan.getName());
@@ -43,8 +43,8 @@ public class DistrictTreeTest {
         Optional<DistrictTree> sub = districtTree.getTreeByName("湖北省", "武汉市", "洪山区");
 
         Assert.assertTrue(sub.isPresent());
-        DistrictTree skeleton = sub.get();
-        District hongshan = skeleton.getDistrict();
+        DistrictTree hongshanTree = sub.get();
+        District hongshan = hongshanTree.getDistrict();
 
         Assert.assertEquals("洪山区", hongshan.getName());
     }
@@ -57,31 +57,50 @@ public class DistrictTreeTest {
     }
 
     @Test
-    public void getTreeByPointInChina() {
+    public void getWuhanTreeByPointInChina() {
         districtTree.inflateBoundaryWithDepth(boundarySource, 2);
         Optional<DistrictTree> wuhanSkeletonOptional = districtTree.getTreeByPoint(new Point(114.305469, 30.593175));
 
         Assert.assertTrue(wuhanSkeletonOptional.isPresent());
 
-        DistrictTree skeleton = wuhanSkeletonOptional.get();
-        District wuhan = skeleton.getDistrict();
+        DistrictTree wuhanTree = wuhanSkeletonOptional.get();
+        District wuhan = wuhanTree.getDistrict();
 
         Assert.assertEquals("武汉市", wuhan.getName());
     }
 
     @Test
-    public void getTreeByPointInWuhan() {
+    public void getWuhanTreeByPointInWuhan() {
 
         Optional<DistrictTree> subOptional = districtTree.getTreeByName("湖北省", "武汉市");
+        Assert.assertTrue(subOptional.isPresent());
+
         DistrictTree sub = subOptional.get();
         sub.inflateBoundaryWithDepth(boundarySource, 0);
-        Optional<DistrictTree> wuhanSkeletonOptional = sub.getTreeByPoint(new Point(114.305469, 30.593175));
+        Optional<DistrictTree> wuhanTreeOptional = sub.getTreeByPoint(new Point(114.305469, 30.593175));
+        Assert.assertTrue(wuhanTreeOptional.isPresent());
 
-        Assert.assertTrue(wuhanSkeletonOptional.isPresent());
-
-        DistrictTree skeleton = wuhanSkeletonOptional.get();
-        District wuhan = skeleton.getDistrict();
+        DistrictTree wuhanTree = wuhanTreeOptional.get();
+        District wuhan = wuhanTree.getDistrict();
 
         Assert.assertEquals("武汉市", wuhan.getName());
+    }
+
+    @Test
+    public void getHongshanTreeByPointInWuhan() {
+
+        Optional<DistrictTree> subOptional = districtTree.getTreeByName("湖北省", "武汉市");
+        Assert.assertTrue(subOptional.isPresent());
+
+        DistrictTree sub = subOptional.get();
+        sub.inflateBoundaryWithDepth(boundarySource, 1);
+        //华中科技大学 114.40776, 30.51415
+        Optional<DistrictTree> hongshanOptional = sub.getTreeByPoint(new Point(114.40776, 30.51415));
+        Assert.assertTrue(hongshanOptional.isPresent());
+
+        DistrictTree hongshanTree = hongshanOptional.get();
+        District hongshan = hongshanTree.getDistrict();
+
+        Assert.assertEquals("洪山区", hongshan.getName());
     }
 }

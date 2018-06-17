@@ -5,6 +5,8 @@ import io.github.xesam.geo.Point;
 import java.util.Optional;
 
 /**
+ * TODO:一个让接口更友好的辅助类
+ *
  * @author xesamguo@gmail.com
  */
 public class DistrictQuerier {
