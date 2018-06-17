@@ -23,6 +23,9 @@ import java.util.Optional;
  */
 public class DistrictTree {
 
+    /**
+     * todo 分离实现
+     */
     public static DistrictTree from(File skeletonFile) {
         try (FileReader jsonReader = new FileReader(skeletonFile)) {
             Gson gson = new GsonBuilder()
