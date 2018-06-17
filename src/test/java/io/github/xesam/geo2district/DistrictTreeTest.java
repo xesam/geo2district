@@ -2,12 +2,10 @@ package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
 import io.github.xesam.geo2district.data.BoundarySource;
-import io.github.xesam.geo2district.data.FileBoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
 import java.util.Optional;
 
 /**
@@ -19,9 +17,8 @@ public class DistrictTreeTest {
 
     @BeforeClass
     public static void beforeClass() {
-        File skeletonFile = new File("d:/data.center/district/unified/skeleton.json");
-        districtTree = DistrictTree.from(skeletonFile);
-        boundarySource = new FileBoundarySource(new File("d:/data.center/district/unified"));
+        districtTree = TestHelper.getDistrictTree();
+        boundarySource = TestHelper.getBoundarySource();
     }
 
     @Test
