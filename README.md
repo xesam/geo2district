@@ -8,6 +8,8 @@
 
 ## 使用方式
 
+```java
+
     // 获取行政区划的树形结构
     DistrictTree districtTree = TestHelper.getDistrictTree();
 
@@ -23,6 +25,6 @@
     District wuhan = wuhanTree.getDistrict();
 
     Assert.assertEquals("武汉市", wuhan.getName());//true
-
+```
 
 更多参见 test
