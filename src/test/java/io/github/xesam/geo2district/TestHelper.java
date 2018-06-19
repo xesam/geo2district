@@ -31,7 +31,8 @@ public final class TestHelper {
 
     public static DistrictTree getDistrictTree() {
         File treeFile = getTreeFile();
-        return DistrictTree.from(treeFile);
+        FileDistrictTreeLoader loader = new FileDistrictTreeLoader(treeFile);
+        return loader.getDistrictTree();
     }
 
     public static BoundarySource getBoundarySource() {
