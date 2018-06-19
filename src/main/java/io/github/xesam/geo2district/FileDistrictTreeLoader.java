@@ -33,16 +33,16 @@ public class FileDistrictTreeLoader implements DistrictTreeLoader {
                     .registerTypeAdapter(DistrictTree.class, (JsonDeserializer<DistrictTree>) (json, typeOfT, context) -> {
                         District district = context.deserialize(json, District.class);
                         JsonArray jDistricts = json.getAsJsonObject().getAsJsonArray("districts");
-                        List<DistrictTree> subSkeletons = context.deserialize(jDistricts, new TypeToken<List<DistrictTree>>() {
+                        List<DistrictTree> subTrees = context.deserialize(jDistricts, new TypeToken<List<DistrictTree>>() {
                         }.getType());
-                        return new DistrictTree(district, subSkeletons);
+                        return new DistrictTree(district, subTrees);
                     })
                     .create();
             return gson.fromJson(jsonReader, new TypeToken<DistrictTree>() {
             }.getType());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("load skeleton file error");
+            throw new RuntimeException("load tree file error");
         }
     }
 }

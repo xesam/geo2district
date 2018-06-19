@@ -65,10 +65,10 @@ public class DistrictTree {
     }
 
     @Nullable
-    private DistrictTree findTreeByName(List<DistrictTree> trees, String skeletonName) {
+    private DistrictTree findTreeByName(List<DistrictTree> trees, String treeName) {
         for (DistrictTree tree : trees) {
             District district = tree.getDistrict();
-            if (district.getName().equals(skeletonName)) {
+            if (district.getName().equals(treeName)) {
                 return tree;
             }
         }
@@ -83,8 +83,8 @@ public class DistrictTree {
         if (depth <= 0) {
             return;
         }
-        for (DistrictTree skeleton : subTrees) {
-            skeleton.inflateBoundaryWithDepth(boundarySource, depth - 1);
+        for (DistrictTree tree : subTrees) {
+            tree.inflateBoundaryWithDepth(boundarySource, depth - 1);
         }
     }
 

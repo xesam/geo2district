@@ -24,8 +24,8 @@ public class DistrictTest {
         Point point = new Point(116.415017, 39.917192);
         Optional<DistrictTree> sub = districtTree.getTreeByName("北京市");
         Assert.assertTrue(sub.isPresent());
-        DistrictTree skeleton = sub.get();
-        District district = skeleton.getDistrict();
+        DistrictTree tree = sub.get();
+        District district = tree.getDistrict();
         district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
@@ -36,8 +36,8 @@ public class DistrictTest {
         Point point = new Point(114.31, 30.52);
         Optional<DistrictTree> sub = districtTree.getTreeByName("湖北省");
         Assert.assertTrue(sub.isPresent());
-        DistrictTree skeleton = sub.get();
-        District district = skeleton.getDistrict();
+        DistrictTree tree = sub.get();
+        District district = tree.getDistrict();
         district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
@@ -48,8 +48,8 @@ public class DistrictTest {
         Point point = new Point(114.264415, 22.166757);
         Optional<DistrictTree> sub = districtTree.getTreeByName("香港特别行政区");
         Assert.assertTrue(sub.isPresent());
-        DistrictTree skeleton = sub.get();
-        District district = skeleton.getDistrict();
+        DistrictTree tree = sub.get();
+        District district = tree.getDistrict();
         district.inflateBoundary(boundarySource);
         Relation relation = district.relationOf(point);
         Assert.assertEquals(Relation.IN, relation);
@@ -65,7 +65,7 @@ public class DistrictTest {
     }
 
     @Test
-    public void toDistrictSkeletonIn() {
+    public void toDistrictTreeIn() {
         Point point = new Point(116.415017, 39.917192);
         districtTree.inflateBoundaryWithDepth(boundarySource, 0);
         District district = districtTree.getDistrict();
@@ -74,7 +74,7 @@ public class DistrictTest {
     }
 
     @Test
-    public void toDistrictSkeletonNothing() {
+    public void toDistrictTreeNothing() {
         Point point = new Point(14.31, 30.52);
         districtTree.inflateBoundaryWithDepth(boundarySource, 0);
         District district = districtTree.getDistrict();

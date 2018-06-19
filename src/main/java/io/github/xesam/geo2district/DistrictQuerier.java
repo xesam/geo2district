@@ -18,9 +18,9 @@ public class DistrictQuerier {
     }
 
     public Optional<District> query(String... subNames) {
-        Optional<DistrictTree> skeleton = districtTree.getTreeByName(subNames);
-        if (skeleton.isPresent()) {
-            return Optional.ofNullable(skeleton.get().getDistrict());
+        Optional<DistrictTree> treeOptional = districtTree.getTreeByName(subNames);
+        if (treeOptional.isPresent()) {
+            return Optional.ofNullable(treeOptional.get().getDistrict());
         }
         return Optional.empty();
     }

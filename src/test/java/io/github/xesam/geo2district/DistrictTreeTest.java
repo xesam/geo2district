@@ -56,11 +56,11 @@ public class DistrictTreeTest {
     @Test
     public void getWuhanTreeByPointInChina() {
         districtTree.inflateBoundaryWithDepth(boundarySource, 2);
-        Optional<DistrictTree> wuhanSkeletonOptional = districtTree.getTreeByPoint(new Point(114.305469, 30.593175));
+        Optional<DistrictTree> wuhanTreeOptional = districtTree.getTreeByPoint(new Point(114.305469, 30.593175));
 
-        Assert.assertTrue(wuhanSkeletonOptional.isPresent());
+        Assert.assertTrue(wuhanTreeOptional.isPresent());
 
-        DistrictTree wuhanTree = wuhanSkeletonOptional.get();
+        DistrictTree wuhanTree = wuhanTreeOptional.get();
         District wuhan = wuhanTree.getDistrict();
 
         Assert.assertEquals("武汉市", wuhan.getName());
