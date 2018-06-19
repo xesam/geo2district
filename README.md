@@ -20,8 +20,8 @@
     districtTree.inflateBoundaryWithDepth(boundarySource, 2);
 
     //根据坐标查找行政区，行政区的级别与加载的 depth 有关
-    Optional<DistrictTree> wuhanSkeletonOptional = districtTree.getTreeByPoint(new Point(114.305469, 30.593175));
-    DistrictTree wuhanTree = wuhanSkeletonOptional.get();
+    Optional<DistrictTree> wuhanTreeOptional = districtTree.getTreeByPoint(new Point(114.305469, 30.593175));
+    DistrictTree wuhanTree = wuhanTreeOptional.get();
     District wuhan = wuhanTree.getDistrict();
 
     Assert.assertEquals("武汉市", wuhan.getName());//true
