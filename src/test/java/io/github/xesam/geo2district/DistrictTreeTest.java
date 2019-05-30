@@ -31,8 +31,6 @@ public class DistrictTreeTest {
 
         Assert.assertEquals("420100", wuhan.getAdcode());
         Assert.assertEquals("武汉市", wuhan.getName());
-        Assert.assertEquals(114.305469, wuhan.getCenter().getLng(), 0.00001);
-        Assert.assertEquals(30.593175, wuhan.getCenter().getLat(), 0.00001);
     }
 
     @Test
