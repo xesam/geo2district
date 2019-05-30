@@ -3,9 +3,6 @@ package io.github.xesam.geo2district;
 import com.google.gson.annotations.SerializedName;
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
-import io.github.xesam.geo2district.data.BoundarySource;
-
-import java.util.Optional;
 
 /**
  * 区域
@@ -18,7 +15,6 @@ public class District {
     private String adcode = "";
     @SerializedName("name")
     private String name = "";
-    @SerializedName("center")
     private Coordinate center = new Coordinate(-1, -1);
     private Boundary boundary;
 
@@ -29,20 +25,32 @@ public class District {
         return adcode;
     }
 
+    public void setAdcode(String adcode) {
+        this.adcode = adcode;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Coordinate getCenter() {
         return center;
     }
 
-    public void inflateBoundary(BoundarySource boundarySource) {
-        if (boundary != null) {
-            return;
-        }
-        Optional<Boundary> boundaryOptional = boundarySource.load(getAdcode());
-        boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
+    public void setCenter(Coordinate center) {
+        this.center = center;
+    }
+
+    public Boundary getBoundary() {
+        return boundary;
+    }
+
+    public void setBoundary(Boundary boundary) {
+        this.boundary = boundary;
     }
 
     public Relation relationOf(Coordinate coordinate) {

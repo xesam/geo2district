@@ -3,7 +3,6 @@ package io.github.xesam.geo2district;
 import com.sun.istack.internal.Nullable;
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
-import io.github.xesam.geo2district.data.BoundarySource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,21 +74,17 @@ public class DistrictTree {
         return null;
     }
 
-    public void inflateBoundaryWithDepth(BoundarySource boundarySource, int depth) {
+    public void inflateForDepth(DistrictLoader districtLoader, int depth) {
         if (district == null) {
             return;
         }
-        district.inflateBoundary(boundarySource);
+        districtLoader.load(district.getAdcode()).ifPresent(ele->district = ele);
         if (depth <= 0) {
             return;
         }
         for (DistrictTree tree : subTrees) {
-            tree.inflateBoundaryWithDepth(boundarySource, depth - 1);
+            tree.inflateForDepth(districtLoader, depth - 1);
         }
-    }
-
-    public void inflateBoundaryAll(BoundarySource boundarySource) {
-        inflateBoundaryWithDepth(boundarySource, Integer.MAX_VALUE);
     }
 
 }

@@ -1,4 +1,4 @@
-package io.github.xesam.geo2district;
+package io.github.xesam.geo2district.core;
 
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;

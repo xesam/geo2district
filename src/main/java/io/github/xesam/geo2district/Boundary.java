@@ -1,10 +1,9 @@
 package io.github.xesam.geo2district;
 
+import io.github.xesam.geo2district.core.MultiPolygon;
+import io.github.xesam.geo2district.core.Polygon;
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * 边界集合，一个行政区可能有多个不接壤的边界
@@ -13,18 +12,14 @@ import java.util.List;
  */
 public class Boundary {
 
-    private List<Polygon> polygons;
+    private MultiPolygon polygons;
 
-    public Boundary() {
-        this(new LinkedList<>());
-    }
-
-    public Boundary(List<Polygon> polygons) {
-        this.polygons = polygons;
+    public Boundary(MultiPolygon polygon) {
+        this.polygons = polygon;
     }
 
     public Relation relationOf(Coordinate coordinate) {
-        for (Polygon polygon : polygons) {
+        for (Polygon polygon : polygons.getCoordinates()) {
             Relation relation = polygon.relationOf(coordinate);
             if (relation == Relation.ON || relation == Relation.IN) {
                 return relation;
@@ -33,23 +28,4 @@ public class Boundary {
         return Relation.OUT;
     }
 
-    /**
-     * @author xesamguo@gmail.com
-     */
-    public static class Polygon {
-
-        private List<Coordinate> coordinates;
-
-        public Polygon(List<Coordinate> coordinates) {
-            this.coordinates = coordinates;
-        }
-
-        public Relation relationOf(Coordinate coordinate) {
-            Relation relation = Relations.getRelation(coordinate, coordinates);
-            if (relation == Relation.ON || relation == Relation.IN) {
-                return relation;
-            }
-            return Relation.OUT;
-        }
-    }
 }

@@ -1,7 +1,6 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.gis.core.Coordinate;
-import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,12 +12,12 @@ import java.util.Optional;
  */
 public class DistrictTreeTest {
     static DistrictTree districtTree;
-    static BoundarySource boundarySource;
+    static DistrictLoader districtLoader;
 
     @BeforeClass
     public static void beforeClass() {
         districtTree = TestHelper.getDistrictTree();
-        boundarySource = TestHelper.getBoundarySource();
+        districtLoader = TestHelper.getDistrictLoader();
     }
 
     @Test
@@ -53,7 +52,7 @@ public class DistrictTreeTest {
 
     @Test
     public void getWuhanTreeByPointInChina() {
-        districtTree.inflateBoundaryWithDepth(boundarySource, 2);
+        districtTree.inflateForDepth(districtLoader, 2);
         Optional<DistrictTree> wuhanTreeOptional = districtTree.getTreeByPoint(new Coordinate(114.305469, 30.593175));
 
         Assert.assertTrue(wuhanTreeOptional.isPresent());
@@ -71,7 +70,7 @@ public class DistrictTreeTest {
         Assert.assertTrue(subOptional.isPresent());
 
         DistrictTree sub = subOptional.get();
-        sub.inflateBoundaryWithDepth(boundarySource, 0);
+        sub.inflateForDepth(districtLoader, 0);
         Optional<DistrictTree> wuhanTreeOptional = sub.getTreeByPoint(new Coordinate(114.305469, 30.593175));
         Assert.assertTrue(wuhanTreeOptional.isPresent());
 
@@ -88,7 +87,7 @@ public class DistrictTreeTest {
         Assert.assertTrue(subOptional.isPresent());
 
         DistrictTree sub = subOptional.get();
-        sub.inflateBoundaryWithDepth(boundarySource, 1);
+        sub.inflateForDepth(districtLoader, 1);
         //华中科技大学 114.40776, 30.51415
         Optional<DistrictTree> hongshanOptional = sub.getTreeByPoint(new Coordinate(114.40776, 30.51415));
         Assert.assertTrue(hongshanOptional.isPresent());

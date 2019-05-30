@@ -1,7 +1,6 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.gis.core.Coordinate;
-import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,12 +13,12 @@ import java.util.Optional;
 public class DistrictQuerierTest {
 
     static DistrictTree districtTree;
-    static BoundarySource boundarySource;
+    static DistrictLoader districtLoader;
 
     @BeforeClass
     public static void beforeClass() {
         districtTree = TestHelper.getDistrictTree();
-        boundarySource = TestHelper.getBoundarySource();
+        districtLoader = TestHelper.getDistrictLoader();
     }
 
     @Test
@@ -47,7 +46,7 @@ public class DistrictQuerierTest {
 
     @Test
     public void getWuhanTreeByPointInChina() {
-        districtTree.inflateBoundaryWithDepth(boundarySource, 2);
+        districtTree.inflateForDepth(districtLoader, 2);
         DistrictQuerier districtQuerier = new DistrictQuerier(districtTree);
         District wuhan = districtQuerier.query(new Coordinate(114.305469, 30.593175)).get();
 
@@ -59,7 +58,7 @@ public class DistrictQuerierTest {
 
         Optional<DistrictTree> subOptional = districtTree.getTreeByName("湖北省", "武汉市");
         DistrictTree sub = subOptional.get();
-        sub.inflateBoundaryWithDepth(boundarySource, 0);
+        sub.inflateForDepth(districtLoader, 0);
 
         DistrictQuerier districtQuerier = new DistrictQuerier(sub);
         District wuhan = districtQuerier.query(new Coordinate(114.305469, 30.593175)).get();
@@ -72,7 +71,7 @@ public class DistrictQuerierTest {
 
         Optional<DistrictTree> subOptional = districtTree.getTreeByName("湖北省", "武汉市");
         DistrictTree sub = subOptional.get();
-        sub.inflateBoundaryWithDepth(boundarySource, 1);
+        sub.inflateForDepth(districtLoader, 1);
 
         DistrictQuerier districtQuerier = new DistrictQuerier(sub);
         //华中科技大学 114.40776, 30.51415

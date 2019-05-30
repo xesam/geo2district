@@ -2,7 +2,6 @@ package io.github.xesam.geo2district;
 
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
-import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,12 +10,12 @@ import java.util.Optional;
 
 public class DistrictTest {
     static DistrictTree districtTree;
-    static BoundarySource boundarySource;
+    static DistrictLoader districtLoader;
 
     @BeforeClass
     public static void beforeClass() {
         districtTree = TestHelper.getDistrictTree();
-        boundarySource = TestHelper.getBoundarySource();
+        districtLoader = TestHelper.getDistrictLoader();
     }
 
     @Test
@@ -26,7 +25,7 @@ public class DistrictTest {
         Assert.assertTrue(sub.isPresent());
         DistrictTree tree = sub.get();
         District district = tree.getDistrict();
-        district.inflateBoundary(boundarySource);
+        district = districtLoader.load(district.getAdcode()).get();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -38,7 +37,7 @@ public class DistrictTest {
         Assert.assertTrue(sub.isPresent());
         DistrictTree tree = sub.get();
         District district = tree.getDistrict();
-        district.inflateBoundary(boundarySource);
+        district = districtLoader.load(district.getAdcode()).get();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -50,7 +49,7 @@ public class DistrictTest {
         Assert.assertTrue(sub.isPresent());
         DistrictTree tree = sub.get();
         District district = tree.getDistrict();
-        district.inflateBoundary(boundarySource);
+        district = districtLoader.load(district.getAdcode()).get();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.IN, relation);
     }
@@ -59,7 +58,7 @@ public class DistrictTest {
     public void toDistrictNothing() {
         Coordinate coordinate = new Coordinate(14.31, 30.52);
         District district = districtTree.getDistrict();
-        district.inflateBoundary(boundarySource);
+        district = districtLoader.load(district.getAdcode()).get();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.OUT, relation);
     }
@@ -67,7 +66,7 @@ public class DistrictTest {
     @Test
     public void toDistrictTreeIn() {
         Coordinate coordinate = new Coordinate(116.415017, 39.917192);
-        districtTree.inflateBoundaryWithDepth(boundarySource, 0);
+        districtTree.inflateForDepth(districtLoader, 0);
         District district = districtTree.getDistrict();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.IN, relation);
@@ -76,7 +75,7 @@ public class DistrictTest {
     @Test
     public void toDistrictTreeNothing() {
         Coordinate coordinate = new Coordinate(14.31, 30.52);
-        districtTree.inflateBoundaryWithDepth(boundarySource, 0);
+        districtTree.inflateForDepth(districtLoader, 0);
         District district = districtTree.getDistrict();
         Relation relation = district.relationOf(coordinate);
         Assert.assertEquals(Relation.OUT, relation);

@@ -1,7 +1,7 @@
 package io.github.xesam.geo2district;
 
-import io.github.xesam.geo2district.data.BoundarySource;
-import io.github.xesam.geo2district.data.FileBoundarySource;
+import io.github.xesam.geo2district.files.FileDistrictLoader;
+import io.github.xesam.geo2district.files.FileDistrictTreeLoader;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +35,7 @@ public final class TestHelper {
         return loader.getDistrictTree();
     }
 
-    public static BoundarySource getBoundarySource() {
-        return new FileBoundarySource(getUnifiedDir());
+    public static DistrictLoader getDistrictLoader() {
+        return new FileDistrictLoader(getUnifiedDir());
     }
 }

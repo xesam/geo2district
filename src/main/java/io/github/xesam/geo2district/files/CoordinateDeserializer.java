@@ -1,4 +1,4 @@
-package io.github.xesam.geo2district.data;
+package io.github.xesam.geo2district.files;
 
 import com.google.gson.*;
 import io.github.xesam.gis.core.Coordinate;
@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 /**
  * @author xesamguo@gmail.com
  */
-public class PointDeserializer implements JsonDeserializer<Coordinate> {
+class CoordinateDeserializer implements JsonDeserializer<Coordinate> {
 
     @Override
     public Coordinate deserialize(final JsonElement jsonElement, final Type typeOfT, final JsonDeserializationContext context)
