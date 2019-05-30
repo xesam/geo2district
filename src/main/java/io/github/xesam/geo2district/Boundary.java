@@ -1,6 +1,6 @@
 package io.github.xesam.geo2district;
 
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.geo.Relations;
 import io.github.xesam.gis.core.Relation;
 
@@ -24,9 +24,9 @@ public class Boundary {
         this.polygons = polygons;
     }
 
-    public Relation relationOf(Point point) {
+    public Relation relationOf(Coordinate coordinate) {
         for (Polygon polygon : polygons) {
-            Relation relation = polygon.relationOf(point);
+            Relation relation = polygon.relationOf(coordinate);
             if (relation == Relation.ON || relation == Relation.IN) {
                 return relation;
             }
@@ -39,14 +39,14 @@ public class Boundary {
      */
     public static class Polygon {
 
-        private List<Point> points;
+        private List<Coordinate> coordinates;
 
-        public Polygon(List<Point> points) {
-            this.points = points;
+        public Polygon(List<Coordinate> coordinates) {
+            this.coordinates = coordinates;
         }
 
-        public Relation relationOf(Point point) {
-            Relation relation = Relations.getRelation(point, points);
+        public Relation relationOf(Coordinate coordinate) {
+            Relation relation = Relations.getRelation(coordinate, coordinates);
             if (relation == Relation.ON || relation == Relation.IN) {
                 return relation;
             }

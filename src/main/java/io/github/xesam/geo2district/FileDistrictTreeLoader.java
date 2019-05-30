@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.reflect.TypeToken;
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.geo2district.data.PointDeserializer;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class FileDistrictTreeLoader implements DistrictTreeLoader {
     public DistrictTree getDistrictTree() {
         try (FileReader jsonReader = new FileReader(treeFile)) {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Point.class, new PointDeserializer())
+                    .registerTypeAdapter(Coordinate.class, new PointDeserializer())
                     .registerTypeAdapter(DistrictTree.class, (JsonDeserializer<DistrictTree>) (json, typeOfT, context) -> {
                         District district = context.deserialize(json, District.class);
                         JsonArray jDistricts = json.getAsJsonObject().getAsJsonArray("districts");

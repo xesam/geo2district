@@ -1,5 +1,6 @@
 package io.github.xesam.geo;
 
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
 
 import java.util.Iterator;
@@ -10,26 +11,26 @@ import java.util.List;
  */
 public class Relations {
 
-    public static Relation getRelation(Point target, List<Point> boundary) {
+    public static Relation getRelation(Coordinate target, List<Coordinate> boundary) {
         int crossCount = 0;
         if (boundary.size() < 3) {
             return Relation.OUT;
         }
-        Iterator<Point> iterator = boundary.iterator();
-        Point base = iterator.next();
+        Iterator<Coordinate> iterator = boundary.iterator();
+        Coordinate base = iterator.next();
         while (iterator.hasNext()) {
-            Point next = iterator.next();
+            Coordinate next = iterator.next();
             if (isSamePoint(target, base) || isSamePoint(target, next)) {
                 return Relation.OUT;
             }
-            if ((base.getLat() < target.getLat() && next.getLat() >= target.getLat())
-                    || (base.getLat() >= target.getLat() && next.getLat() < target.getLat())) {
-                double crossLng = next.getLng() - (next.getLat() - base.getLat()) * (next.getLng() - base.getLng()) / (next.getLat() - base.getLat());
+            if ((base.getLatitude() < target.getLatitude() && next.getLatitude() >= target.getLatitude())
+                    || (base.getLatitude() >= target.getLatitude() && next.getLatitude() < target.getLatitude())) {
+                double crossLng = next.getLongitude() - (next.getLatitude() - base.getLatitude()) * (next.getLongitude() - base.getLongitude()) / (next.getLatitude() - base.getLatitude());
 
-                if (crossLng == target.getLng()) {
+                if (crossLng == target.getLongitude()) {
                     return Relation.OUT;
                 }
-                if (crossLng < target.getLng()) {
+                if (crossLng < target.getLongitude()) {
                     crossCount++;
                 }
             }
@@ -39,7 +40,7 @@ public class Relations {
         return (crossCount % 2 != 0) ? Relation.IN : Relation.OUT;
     }
 
-    private static boolean isSamePoint(Point pointA, Point pointB) {
-        return pointA.getLng() == pointB.getLng() && pointA.getLat() == pointB.getLat();
+    private static boolean isSamePoint(Coordinate coordinateA, Coordinate coordinateB) {
+        return coordinateA.getLongitude() == coordinateB.getLongitude() && coordinateA.getLatitude() == coordinateB.getLatitude();
     }
 }

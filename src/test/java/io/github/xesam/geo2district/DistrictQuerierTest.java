@@ -1,6 +1,6 @@
 package io.github.xesam.geo2district;
 
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -49,7 +49,7 @@ public class DistrictQuerierTest {
     public void getWuhanTreeByPointInChina() {
         districtTree.inflateBoundaryWithDepth(boundarySource, 2);
         DistrictQuerier districtQuerier = new DistrictQuerier(districtTree);
-        District wuhan = districtQuerier.query(new Point(114.305469, 30.593175)).get();
+        District wuhan = districtQuerier.query(new Coordinate(114.305469, 30.593175)).get();
 
         Assert.assertEquals("武汉市", wuhan.getName());
     }
@@ -62,7 +62,7 @@ public class DistrictQuerierTest {
         sub.inflateBoundaryWithDepth(boundarySource, 0);
 
         DistrictQuerier districtQuerier = new DistrictQuerier(sub);
-        District wuhan = districtQuerier.query(new Point(114.305469, 30.593175)).get();
+        District wuhan = districtQuerier.query(new Coordinate(114.305469, 30.593175)).get();
 
         Assert.assertEquals("武汉市", wuhan.getName());
     }
@@ -76,7 +76,7 @@ public class DistrictQuerierTest {
 
         DistrictQuerier districtQuerier = new DistrictQuerier(sub);
         //华中科技大学 114.40776, 30.51415
-        District hongshan = districtQuerier.query(new Point(114.40776, 30.51415)).get();
+        District hongshan = districtQuerier.query(new Coordinate(114.40776, 30.51415)).get();
 
         Assert.assertEquals("洪山区", hongshan.getName());
     }

@@ -1,7 +1,7 @@
 package io.github.xesam.geo2district;
 
 import com.google.gson.annotations.SerializedName;
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 
@@ -19,7 +19,7 @@ public class District {
     @SerializedName("name")
     private String name = "";
     @SerializedName("center")
-    private Point center = new Point(-1, -1);
+    private Coordinate center = new Coordinate(-1, -1);
     private Boundary boundary;
 
     public District() {
@@ -33,7 +33,7 @@ public class District {
         return name;
     }
 
-    public Point getCenter() {
+    public Coordinate getCenter() {
         return center;
     }
 
@@ -45,11 +45,11 @@ public class District {
         boundaryOptional.ifPresent(boundary1 -> this.boundary = boundary1);
     }
 
-    public Relation relationOf(Point point) {
+    public Relation relationOf(Coordinate coordinate) {
         if (boundary == null) {
             return Relation.OUT;
         }
-        return boundary.relationOf(point);
+        return boundary.relationOf(coordinate);
     }
 
     @Override

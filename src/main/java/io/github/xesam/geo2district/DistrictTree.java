@@ -1,7 +1,7 @@
 package io.github.xesam.geo2district;
 
 import com.sun.istack.internal.Nullable;
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 
@@ -30,24 +30,24 @@ public class DistrictTree {
         return district;
     }
 
-    private boolean isPointInDistrict(District district, Point point) {
-        Relation relation = district.relationOf(point);
+    private boolean isPointInDistrict(District district, Coordinate coordinate) {
+        Relation relation = district.relationOf(coordinate);
         return relation == Relation.IN;
     }
 
-    public Optional<DistrictTree> getTreeByPoint(Point point) {
+    public Optional<DistrictTree> getTreeByPoint(Coordinate coordinate) {
         //todo 这一步判断是否有必要
-        if (!isPointInDistrict(district, point)) {
+        if (!isPointInDistrict(district, coordinate)) {
             return Optional.empty();
         }
-        return getTreeByPoint(this, point);
+        return getTreeByPoint(this, coordinate);
     }
 
-    private Optional<DistrictTree> getTreeByPoint(DistrictTree districtTree, Point point) {
+    private Optional<DistrictTree> getTreeByPoint(DistrictTree districtTree, Coordinate coordinate) {
         List<DistrictTree> subs = districtTree.subTrees;
         for (DistrictTree sub : subs) {
-            if (isPointInDistrict(sub.district, point)) {
-                return getTreeByPoint(sub, point);
+            if (isPointInDistrict(sub.district, coordinate)) {
+                return getTreeByPoint(sub, coordinate);
             }
         }
         return Optional.of(districtTree);

@@ -1,6 +1,6 @@
 package io.github.xesam.geo2district;
 
-import io.github.xesam.geo.Point;
+import io.github.xesam.gis.core.Coordinate;
 
 import java.util.Optional;
 
@@ -25,8 +25,8 @@ public class DistrictQuerier {
         return Optional.empty();
     }
 
-    public Optional<District> query(Point point) {
-        Optional<DistrictTree> sub = districtTree.getTreeByPoint(point);
+    public Optional<District> query(Coordinate coordinate) {
+        Optional<DistrictTree> sub = districtTree.getTreeByPoint(coordinate);
         if (sub.isPresent()) {
             return Optional.ofNullable(sub.get().getDistrict());
         }
