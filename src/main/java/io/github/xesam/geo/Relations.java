@@ -1,5 +1,7 @@
 package io.github.xesam.geo;
 
+import io.github.xesam.gis.core.Relation;
+
 import java.util.Iterator;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package io.github.xesam.geo;
+package io.github.xesam.gis.core;
 
 /**
  * @author xesamguo@gmail.com

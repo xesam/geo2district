@@ -2,7 +2,7 @@ package io.github.xesam.geo2district;
 
 import com.google.gson.annotations.SerializedName;
 import io.github.xesam.geo.Point;
-import io.github.xesam.geo.Relation;
+import io.github.xesam.gis.core.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 
 import java.util.Optional;

@@ -1,7 +1,7 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.geo.Point;
-import io.github.xesam.geo.Relation;
+import io.github.xesam.gis.core.Relation;
 import io.github.xesam.geo2district.data.BoundarySource;
 import org.junit.Assert;
 import org.junit.BeforeClass;
