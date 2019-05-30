@@ -1,7 +1,6 @@
 package io.github.xesam.geo2district;
 
 import io.github.xesam.gis.core.Coordinate;
-import io.github.xesam.geo.Relations;
 import io.github.xesam.gis.core.Relation;
 
 import java.util.LinkedList;

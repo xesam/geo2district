@@ -1,4 +1,4 @@
-package io.github.xesam.geo;
+package io.github.xesam.geo2district;
 
 import io.github.xesam.gis.core.Coordinate;
 import io.github.xesam.gis.core.Relation;
@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * @author xesamguo@gmail.com
  */
-public class Relations {
+class Relations {
 
-    public static Relation getRelation(Coordinate target, List<Coordinate> boundary) {
+    static Relation getRelation(Coordinate target, List<Coordinate> boundary) {
         int crossCount = 0;
         if (boundary.size() < 3) {
             return Relation.OUT;
